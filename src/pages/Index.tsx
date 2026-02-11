@@ -247,7 +247,7 @@ const Index = () => (
                 <h3 className="mb-4 text-xl font-bold text-foreground">Noticias SAPAP</h3>
                 <div className="relative w-full overflow-hidden rounded-lg" style={{ minHeight: 400 }}>
                   <iframe
-                    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FSAPAP&tabs=timeline&width=500&height=400&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
+                    src="https://www.facebook.com/100063857028532"
                     title="Facebook SAPAP"
                     className="h-full w-full border-0"
                     style={{ minHeight: 400 }}
@@ -348,8 +348,6 @@ const Index = () => (
         </div>
       </section>
     </ScrollReveal>
-
-
 
     {/* 7. WhatsApp */}
     <ScrollReveal>
