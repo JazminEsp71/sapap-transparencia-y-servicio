@@ -7,7 +7,7 @@ import { ScrollReveal } from "@/hooks/useScrollAnimation";
 import {
   Search, FileText, CreditCard, Phone, Droplets,
   Calendar, MessageCircle, Download,
-  Droplet, Trash2, Leaf, AlertTriangle, MapPin, Clock,
+  Droplet, Leaf, AlertTriangle, MapPin, Clock,
   Receipt, FileDown, ChevronRight,
 } from "lucide-react";
 import heroImage from "@/assets/banner-subsidio.jpg";
