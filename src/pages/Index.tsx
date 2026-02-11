@@ -60,12 +60,7 @@ const heroSlides = [
   },
 ];
 
-const announcements = [
-  { icon: Droplet, title: "Cuidemos el Agua", description: "Cada gota cuenta. Cierra la llave mientras te enjabonas y reporta fugas al instante." },
-  { icon: Trash2, title: "No tires basura en coladeras", description: "Evita taponamientos y daños al drenaje. Deposita la basura en su lugar." },
-  { icon: Leaf, title: "Cuida el medio ambiente", description: "No viertas aceites ni químicos en el drenaje. Protejamos nuestros recursos hídricos." },
-  { icon: AlertTriangle, title: "Reporta fugas", description: "Llámanos o envía un WhatsApp para reportar fugas en la vía pública." },
-];
+/* (announcements removed – replaced by Facebook iframe) */
 
 const appBenefits = [
   { icon: CreditCard, text: "Pago del recibo de agua potable" },
