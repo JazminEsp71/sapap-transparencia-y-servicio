@@ -7,7 +7,7 @@ import { ScrollReveal } from "@/hooks/useScrollAnimation";
 import {
   Search, FileText, CreditCard, Phone, Droplets,
   Calendar, MessageCircle, Download,
-  Droplet, Trash2, Leaf, AlertTriangle, MapPin, Clock,
+  Droplet, Leaf, AlertTriangle, MapPin, Clock,
   Receipt, FileDown, ChevronRight,
 } from "lucide-react";
 import heroImage from "@/assets/banner-subsidio.jpg";
@@ -60,12 +60,7 @@ const heroSlides = [
   },
 ];
 
-const announcements = [
-  { icon: Droplet, title: "Cuidemos el Agua", description: "Cada gota cuenta. Cierra la llave mientras te enjabonas y reporta fugas al instante." },
-  { icon: Trash2, title: "No tires basura en coladeras", description: "Evita taponamientos y daños al drenaje. Deposita la basura en su lugar." },
-  { icon: Leaf, title: "Cuida el medio ambiente", description: "No viertas aceites ni químicos en el drenaje. Protejamos nuestros recursos hídricos." },
-  { icon: AlertTriangle, title: "Reporta fugas", description: "Llámanos o envía un WhatsApp para reportar fugas en la vía pública." },
-];
+/* (announcements removed – replaced by Facebook iframe) */
 
 const appBenefits = [
   { icon: CreditCard, text: "Pago del recibo de agua potable" },
@@ -212,114 +207,119 @@ const Index = () => (
       </section>
     </ScrollReveal>
 
-    {/* 4. Avisos y Campañas */}
+    {/* 4. Noticias y Video Aniversario */}
     <ScrollReveal>
       <section className="bg-background py-16">
         <div className="container">
-          <h2 className="mb-10 text-center text-2xl font-bold text-foreground md:text-3xl">Avisos y Campañas</h2>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {announcements.map((item, i) => (
-              <Card key={i} className="h-full transition-shadow duration-300 hover:shadow-md">
-                <CardContent className="flex flex-col items-center p-8 text-center">
-                  <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-accent/15">
-                    <item.icon className="h-8 w-8 text-accent" />
-                  </div>
-                  <h3 className="mb-3 text-lg font-semibold text-foreground">{item.title}</h3>
-                  <p className="text-base text-muted-foreground leading-relaxed">{item.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <h2 className="mb-10 text-center text-2xl font-bold text-foreground md:text-3xl">Noticias y Aniversario</h2>
+          <div className="grid gap-8 lg:grid-cols-2">
+            {/* Facebook Page iframe */}
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md">
+              <CardContent className="p-6">
+                <h3 className="mb-4 text-xl font-bold text-foreground">Noticias SAPAP</h3>
+                <div className="relative w-full overflow-hidden rounded-lg" style={{ minHeight: 400 }}>
+                  <iframe
+                    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FSAPAP&tabs=timeline&width=500&height=400&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
+                    title="Facebook SAPAP"
+                    className="h-full w-full border-0"
+                    style={{ minHeight: 400 }}
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    loading="lazy"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Video 30 Aniversario */}
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md">
+              <CardContent className="p-6">
+                <h3 className="mb-4 text-xl font-bold text-foreground">Video 30 Aniversario SAPAP</h3>
+                <div className="relative aspect-video overflow-hidden rounded-lg">
+                  <iframe
+                    src="https://www.youtube.com/embed/rNbRWdiOhLU"
+                    title="Video 30 Aniversario SAPAP"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="h-full w-full"
+                    loading="lazy"
+                  />
+                </div>
+                <p className="mt-4 text-base text-muted-foreground leading-relaxed">
+                  Celebramos 30 años llevando agua potable y saneamiento a nuestra comunidad. Conoce nuestra historia y compromiso con Purísima del Rincón.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
-      
     </ScrollReveal>
-      <ScrollReveal>
-  <section className="bg-muted/50 py-16">
-    <div className="container">
-      <div className="grid gap-10 md:grid-cols-2 items-start">
+    <ScrollReveal>
+      <section className="bg-muted/50 py-16">
+        <div className="container">
+          <div className="grid gap-8 lg:grid-cols-2">
+            {/* SAPAP App */}
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full">
+              <CardContent className="flex flex-col justify-between p-6 md:p-8 h-full">
+                <div>
+                  <span className="mb-3 inline-block w-fit rounded-full bg-accent/15 px-4 py-1.5 text-sm font-semibold text-accent">
+                    Aplicación Móvil
+                  </span>
+                  <h3 className="mb-3 text-xl font-bold text-foreground md:text-2xl">SAPAP App</h3>
+                  <p className="mb-5 text-base text-muted-foreground leading-relaxed">
+                    Realiza tus trámites desde tu celular Android: paga tu recibo, consulta adeudos y descarga recibos de forma rápida y segura.
+                  </p>
+                  <ul className="mb-6 space-y-3">
+                    {appBenefits.map((b, i) => (
+                      <li key={i} className="flex items-center gap-3 text-foreground">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/15 flex-shrink-0">
+                          <b.icon className="h-5 w-5 text-accent" />
+                        </div>
+                        <span className="text-base">{b.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <Button size="lg" className="gap-2 text-base px-6 h-auto min-h-[52px] w-fit mt-auto">
+                  <Download className="h-5 w-5" />
+                  Descargar App Android
+                </Button>
+              </CardContent>
+            </Card>
 
-        {/* --------------------- */}
-        {/* Columna 1: SAPAP App Android */}
-        {/* --------------------- */}
-        <div className="flex flex-col justify-between h-full space-y-6">
-          <div>
-            
-            <h2 className="mb-4 text-2xl font-bold text-foreground md:text-3xl">SAPAP App</h2>
-            <p className="mb-6 text-lg text-muted-foreground leading-relaxed">
-              Realiza tus trámites desde tu celular Android: paga tu recibo, consulta adeudos y descarga recibos de agua de forma rápida y segura.
-            </p>
-
-            {/* Beneficios de la app */}
-            <ul className="mb-6 space-y-3">
-              {appBenefits.map((b, i) => (
-                <li key={i} className="flex items-center gap-3 text-foreground">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/15">
-                    <b.icon className="h-5 w-5 text-accent" />
+            {/* Eventos Institucionales */}
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full">
+              <div className="flex flex-col h-full">
+                <img
+                  src={bannerCarrera}
+                  alt="14va Carrera SAPAP – Día Mundial del Agua"
+                  className="w-full h-48 object-cover"
+                />
+                <CardContent className="flex flex-col justify-between p-6 md:p-8 flex-1">
+                  <div>
+                    <span className="mb-3 inline-block w-fit rounded-full bg-accent/15 px-4 py-1.5 text-sm font-semibold text-accent">
+                      Próximo evento
+                    </span>
+                    <h3 className="mb-3 text-xl font-bold text-foreground md:text-2xl">
+                      14va Carrera SAPAP – Día Mundial del Agua
+                    </h3>
+                    <div className="mb-4 flex flex-wrap gap-4 text-base text-muted-foreground">
+                      <span className="flex items-center gap-2"><Calendar className="h-5 w-5" /> 22 de marzo, 2026</span>
+                      <span className="flex items-center gap-2"><MapPin className="h-5 w-5" /> Parque Central</span>
+                    </div>
+                    <p className="mb-5 text-base text-muted-foreground leading-relaxed">
+                      Participa en nuestra carrera anual en conmemoración del Día Mundial del Agua. Categorías para toda la familia.
+                    </p>
                   </div>
-                  <span className="text-base md:text-lg">{b.text}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Botón + Imagen alineados */}
-          <div className="flex flex-col md:flex-row md:items-center gap-6">
-            <Button size="lg" className="gap-2 text-base md:text-lg px-6 h-auto min-h-[52px] flex-shrink-0">
-              <Download className="h-5 w-5" />
-              Descargar App Android
-            </Button>
-            <img
-              src="https://sapap.gob.mx/data/files/cuadrosladoderecho22_2023.jpg"
-              alt="SAPAP App Android"
-              className="h-auto w-full max-w-[150px] object-contain rounded-lg shadow-lg"
-            />
-          </div>
-        </div>
-
-        {/* ------------------------------- */}
-        {/* Columna 2: Eventos Institucionales */}
-        {/* ------------------------------- */}
-        <div className="flex flex-col justify-between h-full">
-          <h2 className="mb-6 text-2xl font-bold text-foreground md:text-3xl text-center md:text-left">
-            Eventos Institucionales
-          </h2>
-
-          <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md flex flex-col md:flex-row h-full">
-            {/* Imagen del evento */}
-            <div className="md:w-2/5 flex-shrink-0">
-              <img 
-                src={bannerCarrera} 
-                alt="14va Carrera SAPAP – Día Mundial del Agua" 
-                className="w-full h-full object-cover rounded-lg"
-              />
-            </div>
-
-            {/* Contenido del evento */}
-            <CardContent className="flex flex-col justify-center p-6 md:p-8 md:w-3/5">
-              <span className="mb-3 inline-block w-fit rounded-full bg-accent/15 px-4 py-1.5 text-sm font-semibold text-accent">
-                Próximo evento
-              </span>
-              <h3 className="mb-3 text-xl font-bold text-foreground md:text-2xl">
-                14va Carrera SAPAP – Día Mundial del Agua
-              </h3>
-              <div className="mb-4 flex flex-wrap gap-4 text-base text-muted-foreground">
-                <span className="flex items-center gap-2"><Calendar className="h-5 w-5" /> 22 de marzo, 2026</span>
-                <span className="flex items-center gap-2"><MapPin className="h-5 w-5" /> Parque Central</span>
+                  <Button variant="outline" size="lg" className="w-fit gap-2 text-base min-h-[52px] mt-auto">
+                    Más información
+                  </Button>
+                </CardContent>
               </div>
-              <p className="mb-5 text-base text-muted-foreground leading-relaxed">
-                Participa en nuestra carrera anual en conmemoración del Día Mundial del Agua. Categorías para toda la familia. ¡Inscripciones abiertas!
-              </p>
-              <Button variant="outline" size="lg" className="w-fit gap-2 text-base min-h-[52px] mt-auto">
-                Más información
-              </Button>
-            </CardContent>
-          </Card>
+            </Card>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
-</ScrollReveal>
+      </section>
+    </ScrollReveal>
 
 
 
