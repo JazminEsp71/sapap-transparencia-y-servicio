@@ -15,6 +15,11 @@ import freir from "@/assets/freir-a-fluir-aceite.jpg"
 import eventoImage from "@/assets/evento-carrera.jpg";
 import appMockup from "@/assets/sapap-app-mockup.jpg";
 import bannerCarrera from "@/assets/banner135x90.jpg"
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import AnnouncementCarousel from "@/components/AnnouncementCarousel";
+
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -58,13 +63,6 @@ const heroSlides = [
       { label: "Más información", path: "#", icon: ChevronRight },
     ],
   },
-];
-
-const announcements = [
-  { icon: Droplet, title: "Cuidemos el Agua", description: "Cada gota cuenta. Cierra la llave mientras te enjabonas y reporta fugas al instante." },
-  { icon: Trash2, title: "No tires basura en coladeras", description: "Evita taponamientos y daños al drenaje. Deposita la basura en su lugar." },
-  { icon: Leaf, title: "Cuida el medio ambiente", description: "No viertas aceites ni químicos en el drenaje. Protejamos nuestros recursos hídricos." },
-  { icon: AlertTriangle, title: "Reporta fugas", description: "Llámanos o envía un WhatsApp para reportar fugas en la vía pública." },
 ];
 
 const appBenefits = [
@@ -113,6 +111,29 @@ const HeroCarousel = () => {
   }, [next]);
 
   const slide = heroSlides[current];
+
+  useEffect(() => {
+    // Si ya está cargado, solo re-parsea
+    if (window.FB) {
+      window.FB.XFBML.parse();
+      return;
+    }
+
+    // Crear script si no existe
+    const script = document.createElement("script");
+    script.src = "https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v19.0";
+    script.async = true;
+    script.defer = true;
+    script.crossOrigin = "anonymous";
+
+    script.onload = () => {
+      if (window.FB) {
+        window.FB.XFBML.parse();
+      }
+    };
+
+    document.body.appendChild(script);
+  }, []);
 
   return (
     <section className="relative w-full aspect-[1000/293] overflow-hidden">
@@ -195,7 +216,7 @@ const Index = () => (
               <h3 className="mb-4 text-xl font-bold text-foreground md:text-2xl">Video Institucional</h3>
               <div className="relative aspect-video overflow-hidden rounded-lg shadow-lg">
                 <iframe
-                  src="https://www.youtube.com/watch?v=rNbRWdiOhLU"
+                  src="https://www.youtube.com/embed/rNbRWdiOhLU"
                   title="Video Institucional SAPAP"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -214,114 +235,116 @@ const Index = () => (
 
     {/* 4. Avisos y Campañas */}
     <ScrollReveal>
-      <section className="bg-background py-16">
+      <section className="my-16 text-center">
+        <h2 className="text-2xl font-bold mb-6">
+          Avisos y Campañas
+        </h2>
+
+        <div id="fb-root"></div>
+
+        <div className="flex justify-center">
+          <div
+            className="fb-page"
+            data-href="https://www.facebook.com/100063857028532"
+            data-tabs="timeline"
+            data-width="500"
+            data-height="600"
+            data-small-header="false"
+            data-adapt-container-width="true"
+            data-hide-cover="false"
+            data-show-facepile="false"
+          ></div>
+        </div>
+      </section>
+    </ScrollReveal>
+
+
+    <ScrollReveal>
+      <section className="bg-muted/50 py-16">
         <div className="container">
-          <h2 className="mb-10 text-center text-2xl font-bold text-foreground md:text-3xl">Avisos y Campañas</h2>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {announcements.map((item, i) => (
-              <Card key={i} className="h-full transition-shadow duration-300 hover:shadow-md">
-                <CardContent className="flex flex-col items-center p-8 text-center">
-                  <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-accent/15">
-                    <item.icon className="h-8 w-8 text-accent" />
+          <div className="grid gap-10 md:grid-cols-2 items-start">
+
+            {/* --------------------- */}
+            {/* Columna 1: SAPAP App Android */}
+            {/* --------------------- */}
+            <div className="flex flex-col justify-between h-full space-y-6">
+              <div>
+                
+                <h2 className="mb-4 text-2xl font-bold text-foreground md:text-3xl">SAPAP App</h2>
+                <p className="mb-6 text-lg text-muted-foreground leading-relaxed">
+                  Realiza tus trámites desde tu celular Android: paga tu recibo, consulta adeudos y descarga recibos de agua de forma rápida y segura.
+                </p>
+
+                {/* Beneficios de la app */}
+                <ul className="mb-6 space-y-3">
+                  {appBenefits.map((b, i) => (
+                    <li key={i} className="flex items-center gap-3 text-foreground">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/15">
+                        <b.icon className="h-5 w-5 text-accent" />
+                      </div>
+                      <span className="text-base md:text-lg">{b.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Botón + Imagen alineados */}
+              <div className="flex flex-col md:flex-row md:items-center gap-6">
+                <Button size="lg" className="gap-2 text-base md:text-lg px-6 h-auto min-h-[52px] flex-shrink-0">
+                  <Download className="h-5 w-5" />
+                  Descargar App Android
+                </Button>
+                <img
+                  src="https://sapap.gob.mx/data/files/cuadrosladoderecho22_2023.jpg"
+                  alt="SAPAP App Android"
+                  className="h-auto w-full max-w-[150px] object-contain rounded-lg shadow-lg"
+                />
+              </div>
+            </div>
+
+            {/* ------------------------------- */}
+            {/* Columna 2: Eventos Institucionales */}
+            {/* ------------------------------- */}
+            <div className="flex flex-col justify-between h-full">
+              <h2 className="mb-6 text-2xl font-bold text-foreground md:text-3xl text-center md:text-left">
+                Eventos Institucionales
+              </h2>
+
+              <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md flex flex-col md:flex-row h-full">
+                {/* Imagen del evento */}
+                <div className="md:w-2/5 flex-shrink-0">
+                  <img 
+                    src={bannerCarrera} 
+                    alt="14va Carrera SAPAP – Día Mundial del Agua" 
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+
+                {/* Contenido del evento */}
+                <CardContent className="flex flex-col justify-center p-6 md:p-8 md:w-3/5">
+                  <span className="mb-3 inline-block w-fit rounded-full bg-accent/15 px-4 py-1.5 text-sm font-semibold text-accent">
+                    Próximo evento
+                  </span>
+                  <h3 className="mb-3 text-xl font-bold text-foreground md:text-2xl">
+                    14va Carrera SAPAP – Día Mundial del Agua
+                  </h3>
+                  <div className="mb-4 flex flex-wrap gap-4 text-base text-muted-foreground">
+                    <span className="flex items-center gap-2"><Calendar className="h-5 w-5" /> 22 de marzo, 2026</span>
+                    <span className="flex items-center gap-2"><MapPin className="h-5 w-5" /> Parque Central</span>
                   </div>
-                  <h3 className="mb-3 text-lg font-semibold text-foreground">{item.title}</h3>
-                  <p className="text-base text-muted-foreground leading-relaxed">{item.description}</p>
+                  <p className="mb-5 text-base text-muted-foreground leading-relaxed">
+                    Participa en nuestra carrera anual en conmemoración del Día Mundial del Agua. Categorías para toda la familia. ¡Inscripciones abiertas!
+                  </p>
+                  <Button variant="outline" size="lg" className="w-fit gap-2 text-base min-h-[52px] mt-auto">
+                    Más información
+                  </Button>
                 </CardContent>
               </Card>
-            ))}
+            </div>
           </div>
         </div>
       </section>
-      
     </ScrollReveal>
-      <ScrollReveal>
-  <section className="bg-muted/50 py-16">
-    <div className="container">
-      <div className="grid gap-10 md:grid-cols-2 items-start">
-
-        {/* --------------------- */}
-        {/* Columna 1: SAPAP App Android */}
-        {/* --------------------- */}
-        <div className="flex flex-col justify-between h-full space-y-6">
-          <div>
-            
-            <h2 className="mb-4 text-2xl font-bold text-foreground md:text-3xl">SAPAP App</h2>
-            <p className="mb-6 text-lg text-muted-foreground leading-relaxed">
-              Realiza tus trámites desde tu celular Android: paga tu recibo, consulta adeudos y descarga recibos de agua de forma rápida y segura.
-            </p>
-
-            {/* Beneficios de la app */}
-            <ul className="mb-6 space-y-3">
-              {appBenefits.map((b, i) => (
-                <li key={i} className="flex items-center gap-3 text-foreground">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/15">
-                    <b.icon className="h-5 w-5 text-accent" />
-                  </div>
-                  <span className="text-base md:text-lg">{b.text}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Botón + Imagen alineados */}
-          <div className="flex flex-col md:flex-row md:items-center gap-6">
-            <Button size="lg" className="gap-2 text-base md:text-lg px-6 h-auto min-h-[52px] flex-shrink-0">
-              <Download className="h-5 w-5" />
-              Descargar App Android
-            </Button>
-            <img
-              src="https://sapap.gob.mx/data/files/cuadrosladoderecho22_2023.jpg"
-              alt="SAPAP App Android"
-              className="h-auto w-full max-w-[150px] object-contain rounded-lg shadow-lg"
-            />
-          </div>
-        </div>
-
-        {/* ------------------------------- */}
-        {/* Columna 2: Eventos Institucionales */}
-        {/* ------------------------------- */}
-        <div className="flex flex-col justify-between h-full">
-          <h2 className="mb-6 text-2xl font-bold text-foreground md:text-3xl text-center md:text-left">
-            Eventos Institucionales
-          </h2>
-
-          <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md flex flex-col md:flex-row h-full">
-            {/* Imagen del evento */}
-            <div className="md:w-2/5 flex-shrink-0">
-              <img 
-                src={bannerCarrera} 
-                alt="14va Carrera SAPAP – Día Mundial del Agua" 
-                className="w-full h-full object-cover rounded-lg"
-              />
-            </div>
-
-            {/* Contenido del evento */}
-            <CardContent className="flex flex-col justify-center p-6 md:p-8 md:w-3/5">
-              <span className="mb-3 inline-block w-fit rounded-full bg-accent/15 px-4 py-1.5 text-sm font-semibold text-accent">
-                Próximo evento
-              </span>
-              <h3 className="mb-3 text-xl font-bold text-foreground md:text-2xl">
-                14va Carrera SAPAP – Día Mundial del Agua
-              </h3>
-              <div className="mb-4 flex flex-wrap gap-4 text-base text-muted-foreground">
-                <span className="flex items-center gap-2"><Calendar className="h-5 w-5" /> 22 de marzo, 2026</span>
-                <span className="flex items-center gap-2"><MapPin className="h-5 w-5" /> Parque Central</span>
-              </div>
-              <p className="mb-5 text-base text-muted-foreground leading-relaxed">
-                Participa en nuestra carrera anual en conmemoración del Día Mundial del Agua. Categorías para toda la familia. ¡Inscripciones abiertas!
-              </p>
-              <Button variant="outline" size="lg" className="w-fit gap-2 text-base min-h-[52px] mt-auto">
-                Más información
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
-  </section>
-</ScrollReveal>
-
-
 
     {/* 7. WhatsApp */}
     <ScrollReveal>
