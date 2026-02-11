@@ -212,27 +212,51 @@ const Index = () => (
       </section>
     </ScrollReveal>
 
-    {/* 4. Avisos y Campañas */}
+    {/* 4. Noticias y Video Aniversario */}
     <ScrollReveal>
       <section className="bg-background py-16">
         <div className="container">
-          <h2 className="mb-10 text-center text-2xl font-bold text-foreground md:text-3xl">Avisos y Campañas</h2>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {announcements.map((item, i) => (
-              <Card key={i} className="h-full transition-shadow duration-300 hover:shadow-md">
-                <CardContent className="flex flex-col items-center p-8 text-center">
-                  <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-accent/15">
-                    <item.icon className="h-8 w-8 text-accent" />
-                  </div>
-                  <h3 className="mb-3 text-lg font-semibold text-foreground">{item.title}</h3>
-                  <p className="text-base text-muted-foreground leading-relaxed">{item.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <h2 className="mb-10 text-center text-2xl font-bold text-foreground md:text-3xl">Noticias y Aniversario</h2>
+          <div className="grid gap-8 lg:grid-cols-2">
+            {/* Facebook Page iframe */}
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md">
+              <CardContent className="p-6">
+                <h3 className="mb-4 text-xl font-bold text-foreground">Noticias SAPAP</h3>
+                <div className="relative w-full overflow-hidden rounded-lg" style={{ minHeight: 400 }}>
+                  <iframe
+                    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FSAPAP&tabs=timeline&width=500&height=400&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
+                    title="Facebook SAPAP"
+                    className="h-full w-full border-0"
+                    style={{ minHeight: 400 }}
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    loading="lazy"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Video 30 Aniversario */}
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md">
+              <CardContent className="p-6">
+                <h3 className="mb-4 text-xl font-bold text-foreground">Video 30 Aniversario SAPAP</h3>
+                <div className="relative aspect-video overflow-hidden rounded-lg">
+                  <iframe
+                    src="https://www.youtube.com/embed/rNbRWdiOhLU"
+                    title="Video 30 Aniversario SAPAP"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="h-full w-full"
+                    loading="lazy"
+                  />
+                </div>
+                <p className="mt-4 text-base text-muted-foreground leading-relaxed">
+                  Celebramos 30 años llevando agua potable y saneamiento a nuestra comunidad. Conoce nuestra historia y compromiso con Purísima del Rincón.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
-      
     </ScrollReveal>
       <ScrollReveal>
   <section className="bg-muted/50 py-16">
