@@ -15,6 +15,11 @@ import freir from "@/assets/freir-a-fluir-aceite.jpg"
 import eventoImage from "@/assets/evento-carrera.jpg";
 import appMockup from "@/assets/sapap-app-mockup.jpg";
 import bannerCarrera from "@/assets/banner135x90.jpg"
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import AnnouncementCarousel from "@/components/AnnouncementCarousel";
+
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -109,6 +114,29 @@ const HeroCarousel = () => {
 
   const slide = heroSlides[current];
 
+  useEffect(() => {
+    // Si ya está cargado, solo re-parsea
+    if (window.FB) {
+      window.FB.XFBML.parse();
+      return;
+    }
+
+    // Crear script si no existe
+    const script = document.createElement("script");
+    script.src = "https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v19.0";
+    script.async = true;
+    script.defer = true;
+    script.crossOrigin = "anonymous";
+
+    script.onload = () => {
+      if (window.FB) {
+        window.FB.XFBML.parse();
+      }
+    };
+
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <section className="relative w-full aspect-[1000/293] overflow-hidden">
       {/* Background image */}
@@ -190,7 +218,7 @@ const Index = () => (
               <h3 className="mb-4 text-xl font-bold text-foreground md:text-2xl">Video Institucional</h3>
               <div className="relative aspect-video overflow-hidden rounded-lg shadow-lg">
                 <iframe
-                  src="https://www.youtube.com/watch?v=rNbRWdiOhLU"
+                  src="https://www.youtube.com/embed/rNbRWdiOhLU"
                   title="Video Institucional SAPAP"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen

@@ -19,7 +19,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename="/sapap-transparencia-y-servicio/">
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/transparencia" element={<Transparencia />} />
