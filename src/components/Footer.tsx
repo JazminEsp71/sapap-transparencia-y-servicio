@@ -33,15 +33,15 @@ const Footer = () => (
           <ul className="space-y-2 text-sm">
             <li className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-              <span className="opacity-80">Av. Constitución #450, Col. Centro, C.P. 63000</span>
+              <span className="opacity-80">Buolevard. Manuel Gómez Morín No. 400, Fraccionamiento Los Arcos, Purísima del Ríncón, Gto CP 36400   </span>
             </li>
             <li className="flex items-center gap-2">
               <Phone className="h-4 w-4 shrink-0 text-accent" />
-              <span className="opacity-80">(311) 213-0000</span>
+              <span className="opacity-80">(476) 706-1213, (476) 706-1053</span>
             </li>
             <li className="flex items-center gap-2">
               <Mail className="h-4 w-4 shrink-0 text-accent" />
-              <span className="opacity-80">contacto@sapap.gob.mx</span>
+              <span className="opacity-80">sistemas@sapap.gob.mx</span>
             </li>
             <li className="flex items-center gap-2">
               <Clock className="h-4 w-4 shrink-0 text-accent" />

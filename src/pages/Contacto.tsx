@@ -65,14 +65,14 @@ const Contacto = () => {
                   <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                   <div>
                     <p className="font-medium text-foreground">Dirección</p>
-                    <p className="text-sm text-muted-foreground">Av. Constitución #450, Col. Centro, C.P. 63000</p>
+                    <p className="text-sm text-muted-foreground">Blvd Manuel Gomez Morin 400 Fracc. Los Arcos Purisima del Rincon, Guanajuato, C.P. 36400 México</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Phone className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                   <div>
                     <p className="font-medium text-foreground">Teléfono</p>
-                    <p className="text-sm text-muted-foreground">(311) 213-0000</p>
+                    <p className="text-sm text-muted-foreground">(476)-706-1053    (476)-706-1213</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -97,7 +97,7 @@ const Contacto = () => {
               <CardContent className="p-0 overflow-hidden rounded-lg">
                 <iframe
                   title="Ubicación SAPAP"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3733.123!2d-104.895!3d21.505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDMwJzE4LjAiTiAxMDTCsDUzJzQyLjAiVw!5e0!3m2!1ses!2smx!4v1700000000000"
+                  src="https://www.google.com/maps/place/21%C2%B001'24.1%22N+101%C2%B052'37.5%22W/@21.023349,-101.877069,16z/data=!4m4!3m3!8m2!3d21.0233492!4d-101.8770686?hl=en&entry=ttu&g_ep=EgoyMDI2MDIxMC4wIKXMDSoASAFQAw%3D%3D"
                   className="h-64 w-full border-0"
                   allowFullScreen
                   loading="lazy"

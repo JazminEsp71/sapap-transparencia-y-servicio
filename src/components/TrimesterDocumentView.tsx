@@ -37,35 +37,36 @@ const TrimesterDocumentView = ({
     return results;
   }, [trimester.files, search, fileFilter]);
 
-  const pdfCount = trimester.files.filter((f) => f.type === "pdf").length;
-  const excelCount = trimester.files.filter((f) => f.type === "excel").length;
-
   return (
     <div>
-      {/* Back button */}
-      <Button
-        variant="outline"
-        size="lg"
-        className="mb-6 gap-2 min-h-[52px] text-base font-semibold"
-        onClick={onBack}
-      >
-        <ArrowLeft className="h-5 w-5" />
-        Atrás
-      </Button>
+      {/* Header + Toolbar en una misma fila responsiva */}
+      <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
-      {/* Header */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-foreground md:text-3xl">
-          {trimester.label} – {year}
-        </h2>
-        <p className="mt-2 text-lg text-muted-foreground">
-          {sectionName} · {trimester.files.length} documentos
-        </p>
-      </div>
+        {/* Lado izquierdo: botón + título + info */}
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-6">
+          
+          <Button
+            variant="outline"
+            size="lg"
+            className="gap-2 min-h-[52px] text-base font-semibold"
+            onClick={onBack}
+          >
+            <ArrowLeft className="h-5 w-5" />
+            Atrás
+          </Button>
 
-      {/* Toolbar: search + filter */}
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="relative flex-1">
+          <div>
+            <h2 className="text-2xl font-bold text-foreground md:text-3xl">
+              {trimester.label} – {year}
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              {sectionName} · {trimester.files.length} documentos
+            </p>
+          </div>
+        </div>
+
+        {/* Lado derecho: búsqueda */}
+        <div className="relative w-full md:w-80">
           <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Buscar documento..."
@@ -74,33 +75,9 @@ const TrimesterDocumentView = ({
             className="min-h-[48px] pl-10 text-base"
           />
         </div>
-        <div className="flex items-center gap-2">
-          <Filter className="h-5 w-5 text-muted-foreground" />
-          {(
-            [
-              { key: "all", label: "Todos", count: trimester.files.length },
-              { key: "pdf", label: "PDF", count: pdfCount },
-              { key: "excel", label: "Excel", count: excelCount },
-            ] as const
-          ).map(({ key, label, count }) => (
-            <Button
-              key={key}
-              size="sm"
-              variant={fileFilter === key ? "default" : "outline"}
-              className="min-h-[40px] gap-1.5 text-sm font-semibold"
-              onClick={() => setFileFilter(key)}
-            >
-              {label}
-              <Badge
-                variant={fileFilter === key ? "secondary" : "outline"}
-                className="ml-1 text-xs"
-              >
-                {count}
-              </Badge>
-            </Button>
-          ))}
-        </div>
+
       </div>
+
 
       {/* Results count */}
       {search.trim() && (

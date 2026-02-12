@@ -2,7 +2,8 @@ import Layout from "@/components/Layout";
 import Breadcrumb from "@/components/Breadcrumb";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollReveal } from "@/hooks/useScrollAnimation";
-import { Users, Eye, Heart, Star, MapPin, Phone } from "lucide-react";
+import { Eye, Heart, Star, MapPin, Clock } from "lucide-react";
+import organigrama from "@/assets/organigrama.jpg"
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -12,24 +13,24 @@ const filosofia = [
   {
     icon: Star,
     title: "Misión",
-    text: "Garantizar el abastecimiento de agua potable, el saneamiento y el tratamiento de aguas residuales con eficiencia, transparencia y calidad, para mejorar la vida de todos los ciudadanos del municipio.",
+    text: "Servir y satisfacer las necesidades de nuestros usuarios utilizando eficientemente los recursos disponibles a través de la implementación de acciones de mejora continua que fortalezcan nuestros procesos.",
   },
   {
     icon: Eye,
     title: "Visión",
-    text: "Ser un organismo público de referencia a nivel estatal, reconocido por su compromiso con el servicio, la innovación tecnológica y la gestión sustentable de los recursos hídricos.",
+    text: "Ser un organismo eficiente y comprometido con la prestación de servicios de agua potable, alcantarillado y saneamiento, responsables con el desarrollo hídrico sustentable en beneficio de nuestros usuarios.",
   },
   {
     icon: Heart,
     title: "Valores",
-    text: "Transparencia, responsabilidad, servicio público, honestidad, eficiencia, respeto al medio ambiente y compromiso con la comunidad.",
+    text: "Espíritu de servicio, honestidad, calidad, trabajo en equipo y responsabilidad.",
   },
 ];
 
 const modulos = [
-  { nombre: "Módulo Centro", direccion: "Av. Constitución #450, Col. Centro", telefono: "(311) 213-0000" },
-  { nombre: "Módulo Los Arcos", direccion: "Blv. Manuel Gómez Morín No. 400, Fracc. Los Arcos", telefono: "(311) 213-0001" },
-  { nombre: "Módulo Sur", direccion: "Calle Reforma #120, Col. Las Flores", telefono: "(311) 213-0002" },
+  { nombre: "Módulo de atención del DIF", direccion: "Av. de la Juventud No. 501 B", Horario: "Lunes a Viernes de 8:00 a.m. a 3:30 p.m." },
+  { nombre: "Módulo de atención del Carmen", direccion: "Guadalupe Victoria 402, Col. del Carmen", Horario: "Lunes a Viernes de 8:00 a.m. a 3:30 p.m." },
+  { nombre: "Módulo de atención del Centro", direccion: "Calle Benito Juárez No. 111, Zona Centro", Horario: "Lunes a Viernes de 8:00 a.m. a 3:30 p.m." },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -55,18 +56,10 @@ const Conocenos = () => (
           <Card>
             <CardContent className="p-8">
               <div className="flex flex-col items-center gap-6">
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-accent/15">
-                  <Users className="h-10 w-10 text-accent" />
-                </div>
-                <div className="w-full rounded-lg border-2 border-dashed border-border bg-muted/30 p-12 text-center">
-                  <p className="text-lg font-medium text-foreground">Organigrama Institucional</p>
-                  <p className="mt-2 text-base text-muted-foreground">
-                    Espacio reservado para la imagen del organigrama institucional de SAPAP.
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    La imagen será ampliable para facilitar su lectura.
-                  </p>
-                </div>
+                  <img
+                    src={organigrama}
+                  />
+                
               </div>
             </CardContent>
           </Card>
@@ -108,8 +101,8 @@ const Conocenos = () => (
                       {m.direccion}
                     </p>
                     <p className="flex items-center gap-2 text-base text-muted-foreground">
-                      <Phone className="h-5 w-5 shrink-0 text-accent" />
-                      {m.telefono}
+                      <Clock className="h-5 w-5 shrink-0 text-accent" />
+                      {m.Horario}
                     </p>
                   </div>
                 </CardContent>

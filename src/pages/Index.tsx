@@ -262,7 +262,7 @@ const Index = () => (
                     loading="lazy"
                   />
                 </div>
-                <p className="mt-4 text-base md:text-lg text-muted-foreground leading-relaxed md:leading-loose">
+                <p className="mt-4 text-base text-muted-foreground leading-relaxed">
                   Celebramos 30 años llevando agua potable y saneamiento a nuestra comunidad. Conoce nuestra historia y compromiso con Purísima del Rincón.
                 </p>
               </CardContent>
@@ -385,7 +385,7 @@ const Index = () => (
             <p className="mb-3 text-lg opacity-90">Envía tus reportes, quejas o aclaraciones directamente por WhatsApp.</p>
             <div className="mb-8 flex flex-wrap items-center justify-center gap-5 text-base opacity-85">
               <span className="flex items-center gap-2"><Clock className="h-5 w-5" /> Lunes a viernes, 8:00 a.m. a 4:00 p.m.</span>
-              <span className="flex items-center gap-2"><Phone className="h-5 w-5" /> (000) 000-0000</span>
+              <span className="flex items-center gap-2"><Phone className="h-5 w-5" /> (476) 107-5244</span>
             </div>
             <Button variant="secondary" size="lg" className="gap-2 text-base md:text-lg px-8 h-auto min-h-[56px]" asChild>
               <a href="https://api.whatsapp.com/send/?phone=524761075244" target="_blank" rel="noopener noreferrer">
