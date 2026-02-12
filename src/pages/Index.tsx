@@ -16,11 +16,8 @@ import eventoImage from "@/assets/evento-carrera.jpg";
 import appMockup from "@/assets/sapap-app-mockup.jpg";
 import bannerCarrera from "@/assets/banner135x90.jpg"
 import cuadrolado from "@/assets/cuadroslado.jpg"
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import AnnouncementCarousel from "@/components/AnnouncementCarousel";
-
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -116,7 +113,7 @@ const HeroCarousel = () => {
   const slide = heroSlides[current];
 
   return (
-    <section className="relative w-full aspect-[1000/293] overflow-hidden">
+    <section className="relative w-full aspect-[16/9] md:aspect-[1000/293] overflow-hidden">
       {/* Background image */}
       <div
         className="absolute inset-0 transition-opacity duration-700 ease-in-out"
@@ -177,31 +174,41 @@ const Index = () => (
     <ScrollReveal>
       <section className="bg-muted/50 py-16">
         <div className="container">
-          <div className="grid items-center gap-10 lg:grid-cols-[2fr_3fr]">
-            {/* Conoce SAPAP */}
-            <div>
-              <div className="mb-5 flex items-center gap-3">
-                <Droplets className="h-12 w-12 text-accent" />
-                <h2 className="text-2xl font-bold text-foreground md:text-3xl">Comprometidos con el agua</h2>
+          <div className="grid items-start gap-8 lg:grid-cols-[2fr_3fr]">          
+            {/* Columna izquierda */}
+            <div className="max-w-prose">
+              <div className="mb-6 flex items-center gap-3">
+                <Droplets className="h-10 w-10 text-accent shrink-0" />
+                <h2 className="text-2xl font-bold text-foreground md:text-3xl">
+                  Comprometidos con el agua
+                </h2>
               </div>
-              <p className="text-lg text-muted-foreground leading-relaxed md:text-xl">
-                El agua como recurso natural de primera necesidad es vital para desarrollar cualquier actividad del ser humano, y es fuente de vida para los demás habitantes de la tierra, sean animales o vegetales, por su naturaleza, es un recurso no renovable que día a día se está agotando. 
-              </p>
-              <p className="mt-4 text-lg text-muted-foreground leading-relaxed md:text-xl">
-                El aumento de la población origina una sobre explotación de los mantos acuíferos para poder satisfacer las necesidades de abastecimiento de nuestra población.
-              </p>
+
+              <div className="space-y-4 text-lg md:text-xl leading-relaxed tracking-wide text-muted-foreground md:text-lg md:leading-loose text-justify md:text-left">
+                <p>
+                  El agua como recurso natural de primera necesidad es vital para desarrollar cualquier actividad del ser humano, y es fuente de vida para los demás habitantes de la tierra, sean animales o vegetales. Por su naturaleza, es un recurso no renovable que día a día se está agotando.
+                </p>
+
+                <p>
+                  El aumento de la población origina una sobre explotación de los mantos acuíferos para poder satisfacer las necesidades de abastecimiento de nuestra población.
+                </p>
+              </div>
             </div>
-            {/* Video Institucional */}
+
+            {/* Columna derecha */}
             <div>
-              <h3 className="mb-4 text-xl font-bold text-foreground md:text-2xl">Video Institucional</h3>
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-foreground md:text-3xl">
+                  Video Institucional
+                </h2>
+              </div>
+
               <div className="relative aspect-video overflow-hidden rounded-lg shadow-lg">
                 <iframe
                   src="https://www.youtube.com/embed/rNbRWdiOhLU"
                   title="Video Institucional SAPAP"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
                   className="h-full w-full"
-                  loading="lazy"
+                  allowFullScreen
                 />
               </div>
               <p className="mt-4 text-base text-muted-foreground leading-relaxed">
@@ -217,17 +224,20 @@ const Index = () => (
     <ScrollReveal>
       <section className="bg-background py-16">
         <div className="container">
-          <h2 className="mb-10 text-center text-2xl font-bold text-foreground md:text-3xl">Noticias y Aniversario</h2>
-          <div className="grid gap-8 lg:grid-cols-[3fr_2fr]">
-            {/* Facebook Page iframe */}
-            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md">
+          <h2 className="mb-10 text-center text-2xl font-bold text-foreground md:text-3xl">
+            Noticias y Aniversario
+          </h2>
+
+          <div className="grid gap-8 lg:grid-cols-[2fr_3fr] items-stretch">
+
+            {/* Noticias */}
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full">
               <CardContent className="p-6">
-                <h3 className="mb-4 text-xl font-bold text-foreground">Noticias SAPAP</h3>
-                <div className="relative w-full overflow-hidden rounded-lg" style={{ minHeight: 400 }}>
+                <div className="relative w-full overflow-hidden rounded-lg min-h-[500px]">
                   <iframe
-                    src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/100063857028532&tabs=timeline&width=500&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                    src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/100063857028532&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
                     width="100%"
-                    height="500"
+                    height="700"
                     style={{ border: "none", overflow: "hidden" }}
                     scrolling="no"
                     frameBorder="0"
@@ -240,20 +250,19 @@ const Index = () => (
             </Card>
 
             {/* Video 30 Aniversario */}
-            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md">
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full">
               <CardContent className="p-6">
                 <h3 className="mb-4 text-xl font-bold text-foreground">Video 30 Aniversario SAPAP</h3>
                 <div className="relative aspect-video overflow-hidden rounded-lg">
                   <iframe
-                    src="https://www.youtube.com/watch?v=Je9ajqlgdRI"
+                    src="https://www.youtube.com/embed/Je9ajqlgdRI"
                     title="Video 30 Aniversario SAPAP"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     className="h-full w-full"
                     loading="lazy"
                   />
                 </div>
-                <p className="mt-4 text-base text-muted-foreground leading-relaxed">
+                <p className="mt-4 text-base md:text-lg text-muted-foreground leading-relaxed md:leading-loose">
                   Celebramos 30 años llevando agua potable y saneamiento a nuestra comunidad. Conoce nuestra historia y compromiso con Purísima del Rincón.
                 </p>
               </CardContent>
@@ -262,6 +271,7 @@ const Index = () => (
         </div>
       </section>
     </ScrollReveal>
+
     <ScrollReveal>
       <section className="bg-muted/50 py-16">
         <div className="container">
