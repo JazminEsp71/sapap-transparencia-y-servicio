@@ -177,7 +177,7 @@ const Index = () => (
     <ScrollReveal>
       <section className="bg-muted/50 py-16">
         <div className="container">
-          <div className="grid items-center gap-10 lg:grid-cols-2">
+          <div className="grid items-center gap-10 lg:grid-cols-[2fr_3fr]">
             {/* Conoce SAPAP */}
             <div>
               <div className="mb-5 flex items-center gap-3">
@@ -218,7 +218,7 @@ const Index = () => (
       <section className="bg-background py-16">
         <div className="container">
           <h2 className="mb-10 text-center text-2xl font-bold text-foreground md:text-3xl">Noticias y Aniversario</h2>
-          <div className="grid gap-8 lg:grid-cols-2">
+          <div className="grid gap-8 lg:grid-cols-[3fr_2fr]">
             {/* Facebook Page iframe */}
             <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md">
               <CardContent className="p-6">
