@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import Breadcrumb from "@/components/Breadcrumb";
-import DocumentIcon from "@/components/DocumentIcon";
 import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "@/hooks/useScrollAnimation";
 import {
@@ -10,76 +9,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Download, Calendar, ChevronRight, ArrowLeft, FileText } from "lucide-react";
+import { Calendar, ChevronRight, FileText } from "lucide-react";
 import { transparencyYears, type Trimester } from "@/data/documents";
-import { Card, CardContent } from "@/components/ui/card";
+import TrimesterDocumentView from "@/components/TrimesterDocumentView";
 
 const yearButtons = ["2025", "2024", "2023", "2022", "2021", "2020", "2019"];
-
-interface TrimesterViewProps {
-  trimester: Trimester;
-  sectionName: string;
-  year: string;
-  onBack: () => void;
-}
-
-/** Full-screen view of a single trimester's documents */
-const TrimesterView = ({ trimester, sectionName, year, onBack }: TrimesterViewProps) => (
-  <div>
-    <Button
-      variant="outline"
-      size="lg"
-      className="mb-6 gap-2 min-h-[52px] text-base font-semibold"
-      onClick={onBack}
-    >
-      <ArrowLeft className="h-5 w-5" />
-      Atrás
-    </Button>
-
-    <div className="mb-8">
-      <h2 className="text-2xl font-bold text-foreground md:text-3xl">
-        {trimester.label} – {year}
-      </h2>
-      <p className="mt-2 text-lg text-muted-foreground">
-        {sectionName} · Artículo 26 · {trimester.files.length} documentos
-      </p>
-    </div>
-
-    {/* Responsive grid: 1 col mobile, 2 cols tablet, 3 cols desktop */}
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      {trimester.files.map((file, idx) => (
-        <Card
-          key={idx}
-          className="group transition-shadow duration-300 hover:shadow-md"
-        >
-          <CardContent className="flex flex-col gap-3 p-5">
-            <div className="flex items-start gap-3">
-              <DocumentIcon type={file.type} className="mt-0.5 h-8 w-8 shrink-0" />
-              <div className="min-w-0 flex-1">
-                <p className="text-base font-medium leading-snug text-foreground">
-                  {file.title}
-                </p>
-                <div className="mt-1.5 flex items-center gap-3 text-sm text-muted-foreground">
-                  <span className="rounded bg-muted px-2 py-0.5 text-xs font-bold uppercase">
-                    {file.type}
-                  </span>
-                  <span>{file.size}</span>
-                </div>
-              </div>
-            </div>
-            <Button
-              size="lg"
-              className="mt-auto w-full gap-2 min-h-[48px] text-base"
-            >
-              <Download className="h-5 w-5" />
-              Descargar
-            </Button>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  </div>
-);
 
 const Transparencia = () => {
   const [selectedYear, setSelectedYear] = useState("2025");
@@ -127,7 +61,7 @@ const Transparencia = () => {
         {/* Trimester detail view */}
         {activeTrimester ? (
           <ScrollReveal>
-            <TrimesterView
+            <TrimesterDocumentView
               trimester={activeTrimester.trimester}
               sectionName={activeTrimester.section}
               year={selectedYear}
@@ -138,55 +72,46 @@ const Transparencia = () => {
           /* Sections accordion */
           yearData && (
             <ScrollReveal delay={0.15}>
-              <Accordion
-                type="multiple"
-                defaultValue={yearData.sections
-                  .filter((section) => section.section !== "Cuenta Pública")
-                  .map((section) => section.section)}
-                className="space-y-4"
-              >
-                {yearData.sections
-                  .filter((section) => section.section !== "Cuenta Pública")
-                  .map((section) => (
-                    <AccordionItem
-                      key={section.section}
-                      value={section.section}
-                      className="rounded-lg border bg-card px-6"
-                    >
-                      <AccordionTrigger className="py-5 text-xl font-bold text-foreground hover:no-underline">
-                        <span className="flex items-center gap-3">
-                          <Calendar className="h-6 w-6 text-accent" />
-                          {section.section}
-                        </span>
-                      </AccordionTrigger>
-
-                      <AccordionContent className="pb-6">
-                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                          {section.trimesters.map((tri) => (
-                            <button
-                              key={tri.label}
-                              onClick={() =>
-                                setActiveTrimester({
-                                  section: section.section,
-                                  trimester: tri,
-                                })
-                              }
-                              className="group flex flex-col items-center gap-3 rounded-lg border bg-muted/30 p-6 text-center transition-all duration-200 hover:bg-accent/10 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                            >
-                              <FileText className="h-10 w-10 text-accent transition-transform duration-200 group-hover:scale-110" />
-                              <span className="text-lg font-semibold text-foreground">
-                                {tri.label}
-                              </span>
-                              <span className="text-sm text-muted-foreground">
-                                {tri.files.length} documentos
-                              </span>
-                              <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1" />
-                            </button>
-                          ))}
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
+              <Accordion type="multiple" className="space-y-4">
+                {yearData.sections.map((section) => (
+                  <AccordionItem
+                    key={section.section}
+                    value={section.section}
+                    className="rounded-lg border bg-card px-6"
+                  >
+                    <AccordionTrigger className="py-5 text-xl font-bold text-foreground hover:no-underline">
+                      <span className="flex items-center gap-3">
+                        <Calendar className="h-6 w-6 text-accent" />
+                        {section.section}
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-6">
+                      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        {section.trimesters.map((tri) => (
+                          <button
+                            key={tri.label}
+                            onClick={() =>
+                              setActiveTrimester({
+                                section: section.section,
+                                trimester: tri,
+                              })
+                            }
+                            className="group flex flex-col items-center gap-3 rounded-lg border bg-muted/30 p-6 text-center transition-all duration-200 hover:bg-accent/10 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          >
+                            <FileText className="h-10 w-10 text-accent transition-transform duration-200 group-hover:scale-110" />
+                            <span className="text-lg font-semibold text-foreground">
+                              {tri.label}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              {tri.files.length} documentos
+                            </span>
+                            <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1" />
+                          </button>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
               </Accordion>
             </ScrollReveal>
           )
