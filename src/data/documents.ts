@@ -1,4 +1,5 @@
 import { cuartoTrimestre } from "@/public/2025/transparencia/cuartoTrimestre";
+import { cuartoTrimestreconac } from "@/public/2025/conac/cuartoTrimestre";
 
 export interface Document {
   id: string;
@@ -10,6 +11,7 @@ export interface Document {
 }
 
 export const cuartoTrim = cuartoTrimestre;
+export const cuartoTrimConac = cuartoTrimestreconac
 
 /* ------------------------------------------------------------------ */
 /*  Transparency – organised by year > section > trimester             */
@@ -144,7 +146,7 @@ export const transparencyYears: TransparencyYear[] = [
       {
         section: "CONAC",
         trimesters: [
-          // otros trimestres de CONAC
+          cuartoTrimConac,
         ],
       },
       {
