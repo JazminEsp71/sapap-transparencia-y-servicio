@@ -15,6 +15,7 @@ import freir from "@/assets/freir-a-fluir-aceite.jpg"
 import eventoImage from "@/assets/evento-carrera.jpg";
 import appMockup from "@/assets/sapap-app-mockup.jpg";
 import bannerCarrera from "@/assets/banner135x90.jpg"
+import convocatoria_carrera from "@/assets/convocatoria_carrera.jpg"
 import cuadrolado from "@/assets/cuadroslado.jpg"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -58,7 +59,7 @@ const heroSlides = [
     subtitle: "22 de marzo, 2026 · Parque Central",
     text: "Participa en nuestra carrera anual. Categorías para toda la familia. ¡Inscripciones abiertas!",
     buttons: [
-      { label: "Más información", path: "#", icon: ChevronRight },
+      { label: "Más información", path: "", icon: ChevronRight },
     ],
   },
 ];
@@ -166,7 +167,10 @@ const HeroCarousel = () => {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-const Index = () => (
+const Index = () => {
+  const [openCarrera, setOpenCarrera] = useState(false);
+
+  return (
   <Layout>
     <HeroCarousel />
 
@@ -360,9 +364,15 @@ const Index = () => (
                   <p className="mb-5 text-base text-muted-foreground leading-relaxed">
                       Participa en nuestra carrera anual en conmemoración del Día Mundial del Agua. Categorías para toda la familia.
                     </p>
-                  <Button variant="outline" size="lg" className="w-fit gap-2 text-base min-h-[52px] mt-auto">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-fit gap-2 text-base min-h-[52px] mt-auto"
+                    onClick={() => setOpenCarrera(true)}
+                  >
                     Más información
                   </Button>
+
                 </CardContent>
               </div>
             </Card>
@@ -397,7 +407,32 @@ const Index = () => (
         </div>
       </section>
     </ScrollReveal>
-  </Layout>
-);
+        {openCarrera && (
+        <div
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+          onClick={() => setOpenCarrera(false)}
+        >
+          <div
+            className="relative max-w-5xl w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setOpenCarrera(false)}
+              className="absolute -top-10 right-0 text-white text-3xl"
+            >
+              ✕
+            </button>
+
+            <img
+              src={convocatoria_carrera}
+              alt="14va Carrera SAPAP – Día Mundial del Agua"
+              className="w-full max-h-[90vh] object-contain rounded-lg shadow-xl"
+            />
+          </div>
+        </div>
+      )}
+    </Layout>
+  );
+};
 
 export default Index;

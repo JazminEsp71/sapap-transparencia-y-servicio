@@ -1,3 +1,5 @@
+import { cuartoTrimestre } from "@/public/2025/transparencia/cuartoTrimestre";
+
 export interface Document {
   id: string;
   title: string;
@@ -7,6 +9,8 @@ export interface Document {
   size: string;
 }
 
+export const cuartoTrim = cuartoTrimestre;
+
 /* ------------------------------------------------------------------ */
 /*  Transparency – organised by year > section > trimester             */
 /* ------------------------------------------------------------------ */
@@ -15,6 +19,7 @@ export interface TransparencyFile {
   title: string;
   type: "pdf" | "excel";
   size: string;
+  url?: string;
 }
 
 export interface Trimester {
@@ -118,36 +123,70 @@ const buildTrimesters = (year: string, section: string): Trimester[] => {
   const baseFiles = section === "CONAC" ? conacFiles : articulo26Fractions;
   return TRIMESTER_LABELS.map(({ label, suffix }) => ({
     label,
-    files: baseFiles.map((f) => ({ ...f, title: `${f.title} – ${suffix} ${year}` })),
+    files: baseFiles.map((f) => ({
+      ...f,
+      title: `${f.title} – ${suffix} ${year}`,
+      url: `/transparencia/${year}/${label.replace(/\s+/g, "")}/${encodeURIComponent(f.title)}${f.type === "excel" ? ".xlsx" : ".pdf"}`,
+    })),
   }));
 };
 
 export const transparencyYears: TransparencyYear[] = [
-  "2025", "2024", "2023", "2022", "2021", "2020", "2019",
-].map((year) => ({
-  year,
-  sections: [
-    { section: "Transparencia", trimesters: buildTrimesters(year, "Transparencia") },
-    { section: "CONAC", trimesters: buildTrimesters(year, "CONAC") },
-    ...(parseInt(year) >= 2021
-      ? [{ section: "Cuenta Pública", trimesters: [{ label: "Anual", files: [{ title: `Cuenta Pública ${year}`, type: "pdf" as const, size: "4.2 MB" }] }] }]
-      : []),
-  ],
-}));
+  {
+    year: "2025",
+    sections: [
+      {
+        section: "Transparencia",
+        trimesters: [
+          cuartoTrim,
+        ],
+      },
+      {
+        section: "CONAC",
+        trimesters: [
+          // otros trimestres de CONAC
+        ],
+      },
+      {
+        section: "Cuenta Pública",
+        trimesters: [
+          { label: "Anual", files: [{ title: "Cuenta Pública 2025", type: "pdf", size: "4.2 MB", url: "/transparencia/2025/CuentaPublica/CuentaPublica_2025.pdf" }] }
+        ],
+      },
+    ],
+  },
+  // otros años...
+];
+
+export const transparencyDocuments: Document[] = transparencyYears.flatMap((year) =>
+  year.sections.flatMap((section) =>
+    section.trimesters.flatMap((tri) =>
+      tri.files.map((f, i) => ({
+        id: `${year.year}-${section.section}-${tri.label}-${i}`,
+        title: f.title,
+        category: section.section,
+        type: f.type,
+        date: year.year, // o fecha real si la tienes
+        size: f.size,
+      }))
+    )
+  )
+);
+
 
 /* legacy flat list kept for backwards-compat */
-export const transparencyDocuments: Document[] = [
-  { id: "1", title: "Informe Financiero Trimestral - Q4 2025", category: "Informes Financieros", type: "pdf", date: "2026-01-15", size: "2.4 MB" },
-  { id: "2", title: "Presupuesto de Egresos 2026", category: "Informes Financieros", type: "excel", date: "2025-12-20", size: "1.8 MB" },
-  { id: "3", title: "Acta de Sesión Ordinaria - Diciembre 2025", category: "Actas", type: "pdf", date: "2025-12-18", size: "890 KB" },
-  { id: "4", title: "Auditoría Externa 2025", category: "Auditorías", type: "pdf", date: "2025-11-30", size: "5.2 MB" },
-  { id: "5", title: "Padrón de Proveedores 2026", category: "Padrones", type: "excel", date: "2026-01-10", size: "3.1 MB" },
-  { id: "6", title: "Informe de Gestión Anual 2025", category: "Informes Financieros", type: "pdf", date: "2026-01-20", size: "4.7 MB" },
-  { id: "7", title: "Acta de Sesión Extraordinaria - Noviembre 2025", category: "Actas", type: "pdf", date: "2025-11-15", size: "650 KB" },
-  { id: "8", title: "Reporte de Ingresos Mensuales", category: "Informes Financieros", type: "excel", date: "2026-01-05", size: "1.2 MB" },
-  { id: "9", title: "Dictamen de Auditoría Interna Q3 2025", category: "Auditorías", type: "pdf", date: "2025-10-28", size: "3.8 MB" },
-  { id: "10", title: "Inventario de Bienes Muebles e Inmuebles", category: "Padrones", type: "excel", date: "2025-12-01", size: "2.5 MB" },
-];
+// export const transparencyDocuments: Document[] = [
+//   { id: "1", title: "Informe Financiero Trimestral - Q4 2025", category: "Informes Financieros", type: "pdf", date: "2026-01-15", size: "2.4 MB" },
+//   { id: "2", title: "Presupuesto de Egresos 2026", category: "Informes Financieros", type: "excel", date: "2025-12-20", size: "1.8 MB" },
+//   { id: "3", title: "Acta de Sesión Ordinaria - Diciembre 2025", category: "Actas", type: "pdf", date: "2025-12-18", size: "890 KB" },
+//   { id: "4", title: "Auditoría Externa 2025", category: "Auditorías", type: "pdf", date: "2025-11-30", size: "5.2 MB" },
+//   { id: "5", title: "Padrón de Proveedores 2026", category: "Padrones", type: "excel", date: "2026-01-10", size: "3.1 MB" },
+//   { id: "6", title: "Informe de Gestión Anual 2025", category: "Informes Financieros", type: "pdf", date: "2026-01-20", size: "4.7 MB" },
+//   { id: "7", title: "Acta de Sesión Extraordinaria - Noviembre 2025", category: "Actas", type: "pdf", date: "2025-11-15", size: "650 KB" },
+//   { id: "8", title: "Reporte de Ingresos Mensuales", category: "Informes Financieros", type: "excel", date: "2026-01-05", size: "1.2 MB" },
+//   { id: "9", title: "Dictamen de Auditoría Interna Q3 2025", category: "Auditorías", type: "pdf", date: "2025-10-28", size: "3.8 MB" },
+//   { id: "10", title: "Inventario de Bienes Muebles e Inmuebles", category: "Padrones", type: "excel", date: "2025-12-01", size: "2.5 MB" },
+// ];
 
 /* ------------------------------------------------------------------ */
 /*  Laws                                                               */

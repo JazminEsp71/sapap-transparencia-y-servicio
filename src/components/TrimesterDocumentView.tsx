@@ -119,13 +119,22 @@ const TrimesterDocumentView = ({
                   <span>{file.size}</span>
                 </div>
               </div>
-              <Button
-                size="lg"
-                className="hidden min-h-[48px] gap-2 text-base sm:inline-flex"
+              <a
+                href={file.url}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Download className="h-5 w-5" />
-                Descargar
-              </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  className="hidden min-h-[48px] gap-2 text-base sm:inline-flex"
+                >
+                  <a href={file.url} target="_blank" rel="noopener noreferrer">
+                    <Download className="h-5 w-5" />
+                    Descargar
+                  </a>
+                </Button>
+              </a>
               {/* Mobile: icon-only download */}
               <Button size="icon" className="min-h-[44px] min-w-[44px] sm:hidden">
                 <Download className="h-5 w-5" />

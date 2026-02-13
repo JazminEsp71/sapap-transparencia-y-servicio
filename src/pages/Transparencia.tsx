@@ -12,8 +12,8 @@ import {
 import { Calendar, ChevronRight, FileText } from "lucide-react";
 import { transparencyYears, type Trimester } from "@/data/documents";
 import TrimesterDocumentView from "@/components/TrimesterDocumentView";
-
-const yearButtons = ["2025", "2024", "2023", "2022", "2021", "2020", "2019"];
+ 
+const yearButtons = transparencyYears.map((y) => y.year);
 
 const Transparencia = () => {
   const [selectedYear, setSelectedYear] = useState("2025");

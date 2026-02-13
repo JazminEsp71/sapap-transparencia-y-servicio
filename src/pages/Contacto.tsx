@@ -97,7 +97,7 @@ const Contacto = () => {
               <CardContent className="p-0 overflow-hidden rounded-lg">
                 <iframe
                   title="Ubicación SAPAP"
-                  src="https://www.google.com/maps/place/21%C2%B001'24.1%22N+101%C2%B052'37.5%22W/@21.023349,-101.877069,16z/data=!4m4!3m3!8m2!3d21.0233492!4d-101.8770686?hl=en&entry=ttu&g_ep=EgoyMDI2MDIxMC4wIKXMDSoASAFQAw%3D%3D"
+                  src="https://maps.app.goo.gl/2QDNgYVLfqgV89E36"
                   className="h-64 w-full border-0"
                   allowFullScreen
                   loading="lazy"
