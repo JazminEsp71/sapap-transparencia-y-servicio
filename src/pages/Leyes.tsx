@@ -37,21 +37,23 @@ const Leyes = () => {
           </div>
         </ScrollReveal>
 
-        <div className="space-y-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {lawDocuments.map((doc, i) => (
             <ScrollReveal key={doc.id} delay={i * 0.08}>
-              <div className="flex items-center gap-5 rounded-lg border bg-card p-5 shadow-sm transition-shadow duration-300 hover:shadow-md">
-                <DocumentIcon type={doc.type} className="h-12 w-12" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-lg font-semibold text-foreground">{doc.title}</p>
-                  <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
-                    <span className="rounded bg-secondary px-2 py-0.5 font-semibold text-secondary-foreground uppercase">
-                      PDF
-                    </span>
-                    <span>{doc.size}</span>
+              <div className="flex flex-col gap-4 rounded-lg border bg-card p-5 shadow-sm transition-shadow duration-300 hover:shadow-md h-full">
+                <div className="flex items-center gap-4">
+                  <DocumentIcon type={doc.type} className="h-10 w-10 shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-lg font-semibold text-foreground">{doc.title}</p>
+                    <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
+                      <span className="rounded bg-secondary px-2 py-0.5 font-semibold text-secondary-foreground uppercase">
+                        PDF
+                      </span>
+                      <span>{doc.size}</span>
+                    </div>
                   </div>
                 </div>
-                <Button size="lg" className="shrink-0 gap-2 min-h-[48px] text-base">
+                <Button size="lg" className="w-full gap-2 min-h-[48px] text-base mt-auto">
                   <Download className="h-5 w-5" />
                   Descargar archivo
                 </Button>
