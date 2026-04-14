@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import heroImage from "@/assets/banner-subsidio.jpg";
 import freir from "@/assets/freir-a-fluir-aceite.jpg"
-import eventoImage from "@/assets/evento-carrera.jpg";
 import appMockup from "@/assets/sapap-app-mockup.jpg";
 import bannerCarrera from "@/assets/banner135x90.jpg"
 import convocatoria_carrera from "@/assets/convocatoria_carrera.jpg"
@@ -53,18 +52,8 @@ const heroSlides = [
       { label: "Descargar App", path: "#", icon: Download },
     ],
   },
-  {
-    image: eventoImage,
-    title: "14va Carrera SAPAP – Día Mundial del Agua",
-    subtitle: "22 de marzo, 2026 · Parque Central",
-    text: "Participa en nuestra carrera anual. Categorías para toda la familia. ¡Inscripciones abiertas!",
-    buttons: [
-      { label: "Más información", path: "", icon: ChevronRight },
-    ],
-  },
 ];
 
-/* (announcements removed – replaced by Facebook iframe) */
 
 const appBenefits = [
   { icon: CreditCard, text: "Pago del recibo de agua potable" },
@@ -72,10 +61,6 @@ const appBenefits = [
   { icon: FileDown, text: "Descarga de recibos en PDF" },
   { icon: MapPin, text: "Ubicación de módulos de cobro" },
 ];
-
-/* ------------------------------------------------------------------ */
-/*  Hero Carousel                                                      */
-/* ------------------------------------------------------------------ */
 
 const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
@@ -115,7 +100,6 @@ const HeroCarousel = () => {
 
   return (
     <section className="relative w-full aspect-[16/9] md:aspect-[1000/293] overflow-hidden">
-      {/* Background image */}
       <div
         className="absolute inset-0 transition-opacity duration-700 ease-in-out"
         style={{
@@ -174,7 +158,6 @@ const Index = () => {
   <Layout>
     <HeroCarousel />
 
-    {/* 2. Conoce SAPAP + Video Institucional (misma fila) */}
     <ScrollReveal>
       <section className="bg-muted/50 py-16">
         <div className="container">

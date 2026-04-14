@@ -135,30 +135,26 @@ const buildTrimesters = (year: string, section: string): Trimester[] => {
 
 export const transparencyYears: TransparencyYear[] = [
   {
-    year: "2025",
-    sections: [
-      {
-        section: "Transparencia",
-        trimesters: [
-          cuartoTrim,
-        ],
-      },
-      {
-        section: "CONAC",
-        trimesters: [
-          cuartoTrimConac,
-        ],
-      },
-      {
-        section: "Cuenta Pública",
-        trimesters: [
-          { label: "Anual", files: [{ title: "Cuenta Pública 2025", type: "pdf", size: "4.2 MB", url: "/transparencia/2025/CuentaPublica/CuentaPublica_2025.pdf" }] }
-        ],
-      },
-    ],
+    year: "2026",
+    sections: []
   },
-  // otros años...
-];
+  {
+    year: "2025",
+    sections: []
+  },
+  {
+    year: "2024",
+    sections: []
+  },
+  {
+    year: "2023",
+    sections: []
+  },
+  {
+    year: "2022",
+    sections: []
+  }
+]
 
 export const transparencyDocuments: Document[] = transparencyYears.flatMap((year) =>
   year.sections.flatMap((section) =>

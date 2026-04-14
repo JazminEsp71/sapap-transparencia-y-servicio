@@ -5,13 +5,15 @@ import { Input } from "@/components/ui/input";
 import DocumentIcon from "@/components/DocumentIcon";
 import { Download, ArrowLeft, Search, ChevronDown } from "lucide-react";
 import type { Trimester } from "@/data/documents";
+import { Archivo } from "@/lib/transparencia.api";
 
 interface TrimesterDocumentViewProps {
   trimester: Trimester;
   sectionName: string;
   year: string;
+  archivos: Archivo[];
+  getFileUrl: (path: string) => string;
   onBack: () => void;
-  enableToggleDescription?: boolean; 
 }
 
 const parseFractionTitle = (title: string) => {
@@ -111,17 +113,36 @@ const TrimesterDocumentView = ({
   trimester,
   sectionName,
   year,
-  onBack,
-  enableToggleDescription = true,
+  archivos,
+  getFileUrl,
+  onBack
 }: TrimesterDocumentViewProps) => {
   const [search, setSearch] = useState("");
+
+  const mapTrimester = (label: string) => {
+    const l = label.toLowerCase();
+
+    if (l.includes("1")) return "PrimerTrimestre";
+    if (l.includes("2")) return "SegundoTrimestre";
+    if (l.includes("3")) return "TercerTrimestre";
+    if (l.includes("4")) return "CuartoTrimestre";
+    return label;
+  };
+
+  const archivosFiltrados = archivos.filter(
+    (a) =>
+      a.año === year &&
+      a.trimestre === mapTrimester(trimester.label)
+  );
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     return q
-      ? trimester.files.filter((f) => f.title.toLowerCase().includes(q))
-      : trimester.files;
-  }, [trimester.files, search]);
+      ? archivosFiltrados.filter((a) =>
+          a.nombre.toLowerCase().includes(q)
+        )
+      : archivosFiltrados;
+  }, [archivosFiltrados, search]);
 
   return (
     <div>
@@ -142,7 +163,7 @@ const TrimesterDocumentView = ({
               {trimester.label} – {year}
             </h2>
             <p className="text-lg text-gray-800">
-              {sectionName} · {trimester.files.length} documentos
+              {sectionName} · {archivosFiltrados.length} documentos
             </p>
           </div>
         </div>
@@ -177,12 +198,17 @@ const TrimesterDocumentView = ({
         </Card>
       ) : (
         <div className="space-y-3">
-          {filtered.map((file, idx) => (
+          {filtered.map((archivo, idx) => (
             <DocumentRow
               key={idx}
-              file={file}
+              file={{
+                title: archivo.nombre,
+                type: "excel",
+                size: "",
+                url: getFileUrl(archivo.ruta)
+              }}
               idx={idx}
-              enableToggleDescription={enableToggleDescription}
+              enableToggleDescription={true}
             />
           ))}
         </div>

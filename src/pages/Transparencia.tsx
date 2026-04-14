@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
@@ -10,19 +10,71 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Calendar, ChevronRight, FileText } from "lucide-react";
-import { transparencyYears, type Trimester } from "@/data/documents";
+import type { Trimester } from "@/data/documents";
 import TrimesterDocumentView from "@/components/TrimesterDocumentView";
- 
-const yearButtons = transparencyYears.map((y) => y.year);
+import { useTransparencia } from "@/hooks/useTransparencia";
+import { getFileUrl } from "@/lib/transparencia.api";
+
+const mapTrimester = (label: string) => {
+  const l = label.toLowerCase().trim();
+
+  if (l.includes("1er") || l.includes("primer")) return "Primer Trimestre";
+  if (l.includes("2do") || l.includes("segundo")) return "Segundo Trimestre";
+  if (l.includes("3er") || l.includes("tercer")) return "Tercer Trimestre";
+  if (l.includes("4to") || l.includes("cuarto")) return "Cuarto Trimestre";
+
+  return "";
+};
+
+const sections = [
+  {
+    section: "Transparencia",
+    trimesters: [
+      { label: "Primer Trimestre" },
+      { label: "Segundo Trimestre" },
+      { label: "Tercer Trimestre" },
+      { label: "Cuarto Trimestre" },
+    ],
+  },
+  {
+    section: "CONAC",
+    trimesters: [
+      { label: "Primer Trimestre" },
+      { label: "Segundo Trimestre" },
+      { label: "Tercer Trimestre" },
+      { label: "Cuarto Trimestre" },
+    ],
+  },
+];
 
 const Transparencia = () => {
-  const [selectedYear, setSelectedYear] = useState("2025");
+  const { archivos, loading, error } = useTransparencia();
+
+  const [selectedYear, setSelectedYear] = useState("");
+
   const [activeTrimester, setActiveTrimester] = useState<{
     section: string;
     trimester: Trimester;
   } | null>(null);
 
-  const yearData = transparencyYears.find((y) => y.year === selectedYear);
+  const availableYears = [...new Set(archivos.map((a) => a.año))].sort(
+    (a, b) => Number(b) - Number(a)
+  );
+
+  const yearButtons = availableYears;
+
+  useEffect(() => {
+    if (availableYears.length && !selectedYear) {
+      setSelectedYear(availableYears[0]);
+    }
+  }, [availableYears, selectedYear]);
+
+  if (error) {
+    return <div className="p-10 text-red-500">{error}</div>;
+  }
+
+  const normalize = (text: string) =>
+    text.toLowerCase().replace(/\s+/g, "").trim();
 
   return (
     <Layout>
@@ -47,7 +99,8 @@ const Transparencia = () => {
                 size="lg"
                 variant={selectedYear === yr ? "default" : "outline"}
                 className="min-h-[52px] min-w-[100px] text-lg font-semibold"
-                onClick={() => {
+                onClick={() => 
+                  {
                   setSelectedYear(yr);
                   setActiveTrimester(null);
                 }}
@@ -65,21 +118,23 @@ const Transparencia = () => {
               trimester={activeTrimester.trimester}
               sectionName={activeTrimester.section}
               year={selectedYear}
+              archivos={archivos}
+              getFileUrl={getFileUrl}
               onBack={() => setActiveTrimester(null)}
             />
           </ScrollReveal>
         ) : (
           /* Acordeón de secciones */
-          yearData && (
+          selectedYear && (
             <ScrollReveal delay={0.15}>
               <Accordion
                 type="multiple"
-                defaultValue={yearData.sections
+                defaultValue={sections
                   .filter((section) => section.section !== "Cuenta Pública")
                   .map((section) => section.section)}
                 className="space-y-4"
               >
-                {yearData.sections
+                {sections
                   .filter((section) => section.section !== "Cuenta Pública")
                   .map((section) => (
                     <AccordionItem
@@ -96,8 +151,20 @@ const Transparencia = () => {
 
                       <AccordionContent className="pb-6">
                         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                          {section.trimesters.map((tri) => (
+                          {section.trimesters.map((tri) => {
+                          const count = archivos.filter(
+                            (a) =>
+                              a.año === selectedYear &&
+                              normalize(a.trimestre) === normalize(mapTrimester(tri.label)) &&
+                              (
+                                (section.section === "Transparencia" && a.tipo === "art26") ||
+                                (section.section === "CONAC" && a.tipo === "conac")
+                              )
+                          ).length;
+
+                          return (
                             <button
+                              disabled={loading}
                               key={tri.label}
                               onClick={() =>
                                 setActiveTrimester({
@@ -111,12 +178,20 @@ const Transparencia = () => {
                               <span className="text-lg font-semibold text-foreground">
                                 {tri.label}
                               </span>
-                              <span className="text-sm text-muted-foreground">
-                                {tri.files.length} documentos
+                              <span className="text-sm text-muted-foreground flex items-center gap-2">
+                                {loading ? (
+                                  <>
+                                    <span className="h-4 w-4 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></span>
+                                    Cargando...
+                                  </>
+                                ) : (
+                                  `${count} documentos`
+                                )}
                               </span>
                               <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1" />
                             </button>
-                          ))}
+                          );
+                        })}
                         </div>
                       </AccordionContent>
                     </AccordionItem>
