@@ -6,15 +6,28 @@ export interface Archivo {
   nombre: string;
   ruta: string;
   año: string;
+  tipo: string;
   trimestre: string;
 }
 
 export async function getArchivosTransparencia(): Promise<Archivo[]> {
+  console.log("Fetching archivos...");
+
   const res = await fetch(API_URL);
 
-  if (!res.ok) {
-    throw new Error("Error al obtener archivos");
-  }
+  console.log("Response status:", res.status);
+
+  const data = await res.json();
+
+  console.log("Data recibida:", data.length);
+
+  return data;
+}
+
+export async function getArchivosPorFiltro(anio: string, tipo: string, trimestre: string) {
+  const res = await fetch(
+    `${API_URL}?anio=${anio}&tipo=${tipo}&trimestre=${trimestre}`
+  );
 
   return res.json();
 }
