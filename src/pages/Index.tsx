@@ -13,17 +13,28 @@ import {
 import heroImage from "@/assets/banner-subsidio.jpg";
 import freir from "@/assets/freir-a-fluir-aceite.jpg"
 import appMockup from "@/assets/sapap-app-mockup.jpg";
-import bannerCarrera from "@/assets/banner135x90.jpg"
-import convocatoria_carrera from "@/assets/convocatoria_carrera.jpg"
+import semaforo from "@/assets/banner temporada calor 2026.jpg"
+import bannerchiquito from "@/assets/banner chiquito_calor.jpg"
+import temporada from "@/assets/temporada de calor_2026.jpg"
+import dispositivos from "@/assets/banner_Dispositivos.jpg";
 import cuadrolado from "@/assets/cuadroslado.jpg"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { title } from "process";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
 /* ------------------------------------------------------------------ */
 
 const heroSlides = [
+  {
+    image: semaforo,
+    title:""
+  },
+  {
+    image: dispositivos,
+    title: ""
+  },
   {
     image: heroImage,
     title: "Infraestructura hidráulica SAPAP",
@@ -218,7 +229,7 @@ const Index = () => {
           <div className="grid gap-8 lg:grid-cols-[2fr_3fr] items-stretch">
 
             {/* Noticias */}
-            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full">
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md">
               <CardContent className="p-6">
                 <div className="relative w-full overflow-hidden rounded-lg min-h-[500px]">
                   <iframe
@@ -265,7 +276,7 @@ const Index = () => {
           <div className="grid gap-8 lg:grid-cols-2">
             {/* SAPAP App */}
             <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full">
-              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-8 h-full">
+              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-8">
                 
                 {/* Columna 1 */}
                 <div>
@@ -328,24 +339,17 @@ const Index = () => {
                   <div>
                     <div className="flex items-start justify-between gap-4 mb-3">
                     <h3 className="mb-3 text-xl font-bold text-foreground md:text-2xl">
-                      14va Carrera SAPAP  Día Mundial del Agua
+                      Semáforo en rojo: cuida el agua hoy
                     </h3>
-                    <span className="mb-3 inline-block w-fit rounded-full bg-accent/15 px-4 py-1.5 text-sm font-semibold text-accent">
-                      Próximo evento
-                    </span>
-                    </div>
-                    <div className="mb-4 flex flex-wrap gap-4 text-base text-muted-foreground">
-                      <span className="flex items-center gap-2"><Calendar className="h-5 w-5" /> 22 de marzo, 2026</span>
-                      <span className="flex items-center gap-2"><MapPin className="h-5 w-5" /> Parque Central</span>
                     </div>
                   </div>
                   <img
-                    src={bannerCarrera}
+                    src={bannerchiquito}
                     alt="14va Carrera SAPAP – Día Mundial del Agua"
                     className="w-full h-48 object-cover"
                   />
                   <p className="mb-5 text-base text-muted-foreground leading-relaxed">
-                      Participa en nuestra carrera anual en conmemoración del Día Mundial del Agua. Categorías para toda la familia.
+                      Durante la temporada de calor, el consumo de agua aumenta y es vital usarla con responsabilidad. Detecta a tiempo hábitos como duchas prolongadas o fugas no atendidas y contribuye a preservar este recurso esencial.
                     </p>
                   <Button
                     variant="outline"
@@ -407,7 +411,7 @@ const Index = () => {
             </button>
 
             <img
-              src={convocatoria_carrera}
+              src={temporada}
               alt="14va Carrera SAPAP – Día Mundial del Agua"
               className="w-full max-h-[90vh] object-contain rounded-lg shadow-xl"
             />

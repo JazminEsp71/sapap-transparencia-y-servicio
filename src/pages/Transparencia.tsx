@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Layout from "@/components/Layout";
 import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,8 @@ import type { Trimester } from "@/data/documents";
 import TrimesterDocumentView from "@/components/TrimesterDocumentView";
 import { useTransparencia } from "@/hooks/useTransparencia";
 import { getFileUrl } from "@/lib/transparencia.api";
+import { getArchivosPorFiltro } from "@/lib/transparencia.api";
+import { useQuery } from "@tanstack/react-query";
 
 const mapTrimester = (label: string) => {
   const l = label.toLowerCase().trim();
@@ -47,21 +49,52 @@ const sections = [
   },
 ];
 
+const TRIMESTRE_KEY: Record<string, string> = {
+  "Primer Trimestre": "primertrimestre",
+  "Segundo Trimestre": "segundotrimestre",
+  "Tercer Trimestre": "tercertrimestre",
+  "Cuarto Trimestre": "cuartotrimestre",
+};
+
 const Transparencia = () => {
   const { archivos, loading, error } = useTransparencia();
-
   const [selectedYear, setSelectedYear] = useState("");
-
   const [activeTrimester, setActiveTrimester] = useState<{
+
     section: string;
     trimester: Trimester;
   } | null>(null);
 
-  const availableYears = [...new Set(archivos.map((a) => a.año))].sort(
-    (a, b) => Number(b) - Number(a)
-  );
+  const availableYears = useMemo(() => {
+    return [...new Set(archivos.map((a) => a.año))].sort(
+      (a, b) => Number(b) - Number(a)
+    );
+  }, [archivos]);
 
   const yearButtons = availableYears;
+
+   const tipo =
+    activeTrimester?.section === "Transparencia" ? "art26" : "conac";
+
+  const { data: archivosTrim = [], isLoading: loadingTrim } = useQuery({
+    queryKey: [
+      "archivos",
+      selectedYear,
+      tipo,
+      activeTrimester?.trimester.label,
+    ],
+    queryFn: () => {
+      if (!activeTrimester) return [];
+
+      return getArchivosPorFiltro(
+        selectedYear,
+        tipo,
+        activeTrimester.trimester.label
+      );
+    },
+  },);
+
+
 
   useEffect(() => {
     if (availableYears.length && !selectedYear) {
@@ -75,6 +108,18 @@ const Transparencia = () => {
 
   const normalize = (text: string) =>
     text.toLowerCase().replace(/\s+/g, "").trim();
+
+  const conteo = useMemo(() => {
+    const map: Record<string, number> = {};
+
+    for (const a of archivos) {
+      const trimestreNorm = a.trimestre.toLowerCase().replace(/\s+/g, "").trim();
+      const key = `${a.año}-${trimestreNorm}-${a.tipo}`;
+      map[key] = (map[key] || 0) + 1;
+    }
+
+    return map;
+  }, [archivos]);
 
   return (
     <Layout>
@@ -118,7 +163,7 @@ const Transparencia = () => {
               trimester={activeTrimester.trimester}
               sectionName={activeTrimester.section}
               year={selectedYear}
-              archivos={archivos}
+              archivos={archivosTrim}
               getFileUrl={getFileUrl}
               onBack={() => setActiveTrimester(null)}
             />
@@ -152,26 +197,21 @@ const Transparencia = () => {
                       <AccordionContent className="pb-6">
                         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                           {section.trimesters.map((tri) => {
-                          const count = archivos.filter(
-                            (a) =>
-                              a.año === selectedYear &&
-                              normalize(a.trimestre) === normalize(mapTrimester(tri.label)) &&
-                              (
-                                (section.section === "Transparencia" && a.tipo === "art26") ||
-                                (section.section === "CONAC" && a.tipo === "conac")
-                              )
-                          ).length;
+                          const tipo =
+                            section.section === "Transparencia" ? "art26" : "conac";
+                          const key = `${selectedYear}-${TRIMESTRE_KEY[tri.label]}-${tipo}`;
+                          const count = conteo[key] || 0;
 
                           return (
                             <button
-                              disabled={loading}
+                              disabled={loadingTrim && activeTrimester?.trimester.label === tri.label} 
                               key={tri.label}
-                              onClick={() =>
+                              onClick={() => {
                                 setActiveTrimester({
                                   section: section.section,
                                   trimester: tri,
-                                })
-                              }
+                                });
+                              }}
                               className="group flex flex-col items-center gap-3 rounded-lg border bg-muted/30 p-6 text-center transition-all duration-200 hover:bg-accent/10 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             >
                               <FileText className="h-10 w-10 text-accent transition-transform duration-200 group-hover:scale-110" />
@@ -179,14 +219,15 @@ const Transparencia = () => {
                                 {tri.label}
                               </span>
                               <span className="text-sm text-muted-foreground flex items-center gap-2">
-                                {loading ? (
-                                  <>
-                                    <span className="h-4 w-4 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></span>
-                                    Cargando...
-                                  </>
-                                ) : (
-                                  `${count} documentos`
-                                )}
+                                {loadingTrim &&
+                                  activeTrimester?.trimester.label === tri.label ? (
+                                    <>
+                                      <span className="h-4 w-4 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></span>
+                                      Cargando...
+                                    </>
+                                  ) : (
+                                    "Ver documentos"
+                                  )}
                               </span>
                               <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1" />
                             </button>

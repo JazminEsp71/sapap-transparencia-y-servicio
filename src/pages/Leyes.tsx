@@ -6,6 +6,7 @@ import { ScrollReveal } from "@/hooks/useScrollAnimation";
 import { Download, ArrowLeft } from "lucide-react";
 import { lawDocuments } from "@/data/documents";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Leyes = () => {
   const navigate = useNavigate();
@@ -53,7 +54,11 @@ const Leyes = () => {
                     </div>
                   </div>
                 </div>
-                <Button size="lg" className="w-full gap-2 min-h-[48px] text-base mt-auto">
+                <Button
+                  size="lg"
+                  className="w-full gap-2 min-h-[48px] text-base mt-auto"
+                  onClick={() => toast("Este documento aún no está disponible")}
+                >
                   <Download className="h-5 w-5" />
                   Descargar archivo
                 </Button>
