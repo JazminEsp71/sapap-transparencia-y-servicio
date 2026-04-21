@@ -122,18 +122,29 @@ const TrimesterDocumentView = ({
   const mapTrimester = (label: string) => {
     const l = label.toLowerCase();
 
-    if (l.includes("1")) return "PrimerTrimestre";
-    if (l.includes("2")) return "SegundoTrimestre";
-    if (l.includes("3")) return "TercerTrimestre";
-    if (l.includes("4")) return "CuartoTrimestre";
+    if (l.includes("primer")) return "Primer Trimestre";
+    if (l.includes("segundo")) return "Segundo Trimestre";
+    if (l.includes("tercer")) return "Tercer Trimestre";
+    if (l.includes("cuarto")) return "Cuarto Trimestre";
+
     return label;
   };
 
-  const archivosFiltrados = archivos.filter(
-    (a) =>
-      a.año === year &&
-      a.trimestre === mapTrimester(trimester.label)
-  );
+  const safeArchivos = Array.isArray(archivos) ? archivos : [];
+
+  const normalize = (t: string) =>
+    t?.toLowerCase().replace(/\s+/g, "").trim();
+
+  const trimestreKey = mapTrimester(trimester.label);
+
+  const archivosFiltrados = safeArchivos.filter((a) => {
+    const matchYear = String(a.año ?? "") === String(year);
+
+    const matchTrim =
+      normalize(a.trimestre) === normalize(trimestreKey);
+
+    return matchYear && matchTrim;
+  });
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
