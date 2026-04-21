@@ -12,7 +12,10 @@ const Footer = () => (
             <span className="text-lg font-bold">SAPAP</span>
           </div>
           <p className="text-sm leading-relaxed opacity-80">
-            Sistema de Agua Potable y Alcantarillado. Comprometidos con el servicio público, la transparencia y el acceso al agua de calidad para toda la comunidad.
+            Sistema de Agua Potable, Alcantarillado y Saneamiento del Municipio de Purísima del Rincón, Gto.
+          </p>
+          <p className="text-sm leading-relaxed opacity-80">
+             Comprometidos con el servicio público, la transparencia y el acceso al agua de calidad para toda la comunidad.
           </p>
         </div>
 
@@ -45,14 +48,14 @@ const Footer = () => (
             </li>
             <li className="flex items-center gap-2">
               <Clock className="h-4 w-4 shrink-0 text-accent" />
-              <span className="opacity-80">Lun–Vie: 8:00–15:00 hrs</span>
+              <span className="opacity-80">Lun–Vie: 8:00–15:30 hrs</span>
             </li>
           </ul>
         </div>
       </div>
 
       <div className="mt-8 border-t border-primary-foreground/20 pt-6 text-center text-xs opacity-60">
-        © {new Date().getFullYear()} SAPAP — Sistema de Agua Potable y Alcantarillado. Todos los derechos reservados.
+        © {new Date().getFullYear()} SAPAP — Sistema de Agua Potable, Alcantarillado y Saneamiento del Municipio de Purísima del Rincón, Gto. Todos los derechos reservados.
       </div>
     </div>
   </footer>
