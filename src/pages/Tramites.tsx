@@ -8,13 +8,13 @@ import {
   ClipboardList, RefreshCw, CreditCard, Trash2, DollarSign, Download,
 } from "lucide-react";
 import DocumentIcon from "@/components/DocumentIcon";
-
+import { useState } from "react";
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
 /* ------------------------------------------------------------------ */
 
 const tramites = [
-  { icon: FileText, title: "Factibilidad de servicios y contratación", description: "Dictamen técnico y conexión nueva al sistema." },
+  { icon: FileText, title: "Factibilidad de servicios y contratación", description: "Dictamen técnico y conexión nueva al sistema.", pdf: "/docs/1_factibilidad.pdf" },
   { icon: MessageCircle, title: "Quejas y aclaraciones", description: "Revisión de cobros y atención a inconformidades." },
   { icon: UserCheck, title: "Cambio de titular", description: "Actualización de nombre del titular del servicio." },
   { icon: PauseCircle, title: "Suspensión voluntaria de la toma", description: "Solicitud para suspender temporalmente el servicio." },
@@ -52,7 +52,10 @@ const costosAdministrativos = [
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-const Tramites = () => (
+const Tramites = () => {
+  const [pdfUrl, setPdfUrl] = useState(null);
+
+  return (
   <Layout>
     <div className="container py-10">
       <Breadcrumb items={[{ label: "Trámites y Servicios" }]} />
@@ -69,7 +72,7 @@ const Tramites = () => (
         <div className="mb-10 flex flex-wrap gap-6 rounded-lg bg-secondary p-5">
           <span className="flex items-center gap-3 text-base font-medium text-secondary-foreground">
             <Clock className="h-6 w-6 text-accent" />
-            Lunes a viernes, 8:00 a.m. a 4:00 p.m.
+            Lunes a viernes, 8:00 a.m. a 3:30 p.m.
           </span>
           <span className="flex items-center gap-3 text-base font-medium text-secondary-foreground">
             <MapPin className="h-6 w-6 text-accent" />
@@ -83,7 +86,9 @@ const Tramites = () => (
         <h2 className="mb-6 text-2xl font-bold text-foreground">Trámites</h2>
         <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tramites.map((t, i) => (
-            <Card key={i} className="transition-shadow duration-300 hover:shadow-md">
+            <Card key={i} 
+              className="cursor-pointer transition-shadow duration-300 hover:shadow-md"
+              onClick={() => t.pdf && setPdfUrl(t.pdf)}>
               <CardContent className="flex items-start gap-4 p-6">
                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent/15">
                   <t.icon className="h-7 w-7 text-accent" />
@@ -181,7 +186,29 @@ const Tramites = () => (
         </div>
       </ScrollReveal>
     </div>
-  </Layout>
-);
+
+    {pdfUrl && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+        <div className="relative w-[90%] h-[90%] bg-white rounded-lg overflow-hidden">
+          
+          {/* Botón cerrar */}
+          <button
+            onClick={() => setPdfUrl(null)}
+            className="absolute top-3 right-3 z-10 bg-red-500 text-white px-3 py-1 rounded"
+          >
+            Cerrar
+          </button>
+
+          {/* PDF */}
+          <iframe
+            src={pdfUrl}
+            className="w-full h-full"
+          />
+        </div>
+      </div>
+    )}
+   </Layout>
+  );
+};
 
 export default Tramites;
