@@ -10,26 +10,23 @@ export interface Archivo {
   trimestre: string;
 }
 
-export async function getArchivosTransparencia(): Promise<Archivo[]> {
-  console.log("Fetching archivos...");
-
-  const res = await fetch(API_URL);
-
-  console.log("Response status:", res.status);
-
-  const data = await res.json();
-
-  console.log("Data recibida:", data.length);
-
-  return data;
-}
-
-export async function getArchivosPorFiltro(anio: string, tipo: string, trimestre: string) {
+export async function getArchivosPorFiltro(
+  anio: string,
+  tipo: string,
+  trimestre: string
+): Promise<Archivo[]> {
   const res = await fetch(
     `${API_URL}?anio=${anio}&tipo=${tipo}&trimestre=${trimestre}`
   );
 
-  return res.json();
+  const data = await res.json();
+
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data?.archivos)) return data.archivos;
+
+  console.warn("Respuesta inesperada API:", data);
+  return [];
 }
 
 export function getFileUrl(path: string) {
