@@ -86,7 +86,7 @@ const Contacto = () => {
                   <Clock className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                   <div>
                     <p className="font-medium text-foreground">Horario de atención</p>
-                    <p className="text-sm text-muted-foreground">Lunes a Viernes: 8:00 – 15:00 hrs</p>
+                    <p className="text-sm text-muted-foreground">Lunes a Viernes: 8:00 – 15:30 hrs</p>
                   </div>
                 </div>
               </CardContent>
