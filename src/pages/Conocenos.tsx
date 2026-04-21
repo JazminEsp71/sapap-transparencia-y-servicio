@@ -2,8 +2,8 @@ import Layout from "@/components/Layout";
 import Breadcrumb from "@/components/Breadcrumb";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollReveal } from "@/hooks/useScrollAnimation";
-import { Eye, Heart, Star, MapPin, Clock } from "lucide-react";
-import organigrama from "@/assets/organigrama.jpg"
+import { Eye, Heart, Star, MapPin, Clock, Award } from "lucide-react";
+import organigrama from "@/assets/organigrama_encargados.jpg"
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -24,6 +24,11 @@ const filosofia = [
     icon: Heart,
     title: "Valores",
     text: "Espíritu de servicio, honestidad, calidad, trabajo en equipo y responsabilidad.",
+  },
+  {
+    icon: Award,
+    title: "Política de Calidad",
+    text: "Garantizar una atención de excelencia a nuestros usuarios con procesos cimentados en el diseño y desarrollo de la mejora continua.",
   },
 ];
 
@@ -70,7 +75,7 @@ const Conocenos = () => (
       <ScrollReveal delay={0.15}>
         <section className="mb-14">
           <h2 className="mb-6 text-2xl font-bold text-foreground">Filosofía Institucional</h2>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {filosofia.map((item, i) => (
               <Card key={i} className="h-full">
                 <CardContent className="flex flex-col items-center p-8 text-center">
