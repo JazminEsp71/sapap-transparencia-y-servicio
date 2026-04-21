@@ -381,7 +381,7 @@ const Index = () => {
             <h2 className="mb-4 text-2xl font-bold md:text-3xl">Atención Ciudadana por WhatsApp</h2>
             <p className="mb-3 text-lg opacity-90">Envía tus reportes, quejas o aclaraciones directamente por WhatsApp.</p>
             <div className="mb-8 flex flex-wrap items-center justify-center gap-5 text-base opacity-85">
-              <span className="flex items-center gap-2"><Clock className="h-5 w-5" /> Lunes a viernes, 8:00 a.m. a 4:00 p.m.</span>
+              <span className="flex items-center gap-2"><Clock className="h-5 w-5" /> Lunes a viernes, 8:00 a.m. a 3:30 p.m.</span>
               <span className="flex items-center gap-2"><Phone className="h-5 w-5" /> (476) 107-5244</span>
             </div>
             <Button variant="secondary" size="lg" className="gap-2 text-base md:text-lg px-8 h-auto min-h-[56px]" asChild>
