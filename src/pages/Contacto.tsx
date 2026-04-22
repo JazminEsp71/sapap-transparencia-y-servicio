@@ -11,12 +11,61 @@ import { useToast } from "@/hooks/use-toast";
 
 const Contacto = () => {
   const { toast } = useToast();
-  const [form, setForm] = useState({ nombre: "", correo: "", asunto: "", mensaje: "" });
+
+  const [form, setForm] = useState({
+    nombre: "",
+    correo: "",
+    celular: "",
+    asunto: "",
+    mensaje: "",
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({ title: "Mensaje enviado", description: "Hemos recibido tu mensaje. Te contactaremos pronto." });
-    setForm({ nombre: "", correo: "", asunto: "", mensaje: "" });
+
+    const nombre = form.nombre.trim();
+    const correo = form.correo.trim();
+    const celular = form.celular.trim();
+    const asunto = form.asunto.trim();
+    const mensaje = form.mensaje.trim();
+
+    if (nombre.length < 5 || nombre.length > 80) {
+      alert("El nombre debe tener entre 5 y 80 caracteres.");
+      return;
+    }
+
+    if (!/^[0-9]{10}$/.test(celular)) {
+      alert("El celular debe tener exactamente 10 dígitos.");
+      return;
+    }
+
+    if (correo && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+      alert("El correo no tiene un formato válido.");
+      return;
+    }
+
+    if (asunto.length < 5 || asunto.length > 100) {
+      alert("El asunto debe tener entre 5 y 100 caracteres.");
+      return;
+    }
+
+    if (mensaje.length < 10 || mensaje.length > 500) {
+      alert("El mensaje debe tener entre 10 y 500 caracteres.");
+      return;
+    }
+
+    toast({
+      title: "Mensaje enviado",
+      description: "Hemos recibido tu mensaje. Te contactaremos pronto.",
+    });
+
+    setForm({
+      nombre: "",
+      correo: "",
+      celular: "",
+      asunto: "",
+      mensaje: "",
+    });
   };
 
   return (
@@ -24,7 +73,9 @@ const Contacto = () => {
       <div className="container py-8">
         <Breadcrumb items={[{ label: "Contacto" }]} />
         <h1 className="mb-2 text-3xl font-bold text-foreground">Contacto</h1>
-        <p className="mb-8 text-muted-foreground">Estamos para servirte. Contáctanos por cualquiera de estos medios.</p>
+        <p className="mb-8 text-muted-foreground">
+          Estamos para servirte. Contáctanos por cualquiera de estos medios.
+        </p>
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Form */}
@@ -34,21 +85,84 @@ const Contacto = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Nombre */}
                 <div className="space-y-2">
                   <Label htmlFor="nombre">Nombre completo</Label>
-                  <Input id="nombre" required value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
+                  <Input
+                    id="nombre"
+                    required
+                    minLength={5}
+                    maxLength={80}
+                    placeholder="Ej. Juan Pérez López"
+                    value={form.nombre}
+                    onChange={(e) =>
+                      setForm({ ...form, nombre: e.target.value })
+                    }
+                  />
                 </div>
+
+                {/* Correo */}
                 <div className="space-y-2">
-                  <Label htmlFor="correo">Correo electrónico</Label>
-                  <Input id="correo" type="email" required value={form.correo} onChange={(e) => setForm({ ...form, correo: e.target.value })} />
+                  <Label htmlFor="correo">Correo electrónico (opcional)</Label>
+                  <Input
+                    id="correo"
+                    type="email"
+                    placeholder="ejemplo@correo.com"
+                    maxLength={100}
+                    value={form.correo}
+                    onChange={(e) =>
+                      setForm({ ...form, correo: e.target.value })
+                    }
+                  />
                 </div>
+                {/* Celular */}
+                <div className="space-y-2">
+                  <Label htmlFor="celular">Celular *</Label>
+                  <Input
+                    id="celular"
+                    type="tel"
+                    required
+                    placeholder="Ej. 4421234567"
+                    pattern="[0-9]{10}"
+                    maxLength={10}
+                    title="Ingresa un número de 10 dígitos"
+                    value={form.celular}
+                    onChange={(e) => {
+                      const soloNumeros = e.target.value.replace(/\D/g, "");
+                      setForm({ ...form, celular: soloNumeros });
+                    }}
+                  />
+                </div>
+                {/* Asunto */}
                 <div className="space-y-2">
                   <Label htmlFor="asunto">Asunto</Label>
-                  <Input id="asunto" required value={form.asunto} onChange={(e) => setForm({ ...form, asunto: e.target.value })} />
+                  <Input
+                    id="asunto"
+                    required
+                    minLength={5}
+                    maxLength={100}
+                    placeholder="Motivo del mensaje"
+                    value={form.asunto}
+                    onChange={(e) =>
+                      setForm({ ...form, asunto: e.target.value })
+                    }
+                  />
                 </div>
+                {/* Mensaje */}
                 <div className="space-y-2">
                   <Label htmlFor="mensaje">Mensaje</Label>
-                  <Textarea id="mensaje" rows={5} required value={form.mensaje} onChange={(e) => setForm({ ...form, mensaje: e.target.value })} />
+                  <Textarea
+                    id="mensaje"
+                    rows={5}
+                    required
+                    minLength={10}
+                    maxLength={500}
+                    placeholder="Escribe tu mensaje..."
+                    value={form.mensaje}
+                    onChange={(e) =>
+                      setForm({ ...form, mensaje: e.target.value })
+                    }
+                  />
                 </div>
                 <Button type="submit" className="w-full gap-2">
                   <Send className="h-4 w-4" /> Enviar mensaje
@@ -56,52 +170,57 @@ const Contacto = () => {
               </form>
             </CardContent>
           </Card>
-
-          {/* Info */}
           <div className="space-y-6">
+            {/* Info */}
             <Card>
               <CardContent className="p-6 space-y-4">
                 <div className="flex items-start gap-3">
                   <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                   <div>
                     <p className="font-medium text-foreground">Dirección</p>
-                    <p className="text-sm text-muted-foreground">Blvd Manuel Gomez Morin 400 Fracc. Los Arcos Purisima del Rincon, Guanajuato, C.P. 36400 México</p>
+                    <p className="text-sm text-muted-foreground">
+                      Blvd Manuel Gómez Morín 400, Fracc. Los Arcos,
+                      Purísima del Rincón, Guanajuato, C.P. 36400, México
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Phone className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                   <div>
                     <p className="font-medium text-foreground">Teléfono</p>
-                    <p className="text-sm text-muted-foreground">(476)-706-1053    (476)-706-1213</p>
+                    <p className="text-sm text-muted-foreground">
+                      (476) 706-1053 · (476) 706-1213
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Mail className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                   <div>
                     <p className="font-medium text-foreground">Correo electrónico</p>
-                    <p className="text-sm text-muted-foreground">contacto@sapap.gob.mx</p>
+                    <p className="text-sm text-muted-foreground">
+                      contacto@sapap.gob.mx
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Clock className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                   <div>
                     <p className="font-medium text-foreground">Horario de atención</p>
-                    <p className="text-sm text-muted-foreground">Lunes a Viernes: 8:00 – 15:30 hrs</p>
+                    <p className="text-sm text-muted-foreground">
+                      Lunes a Viernes: 8:00 – 15:30 hrs
+                    </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Map placeholder */}
+            {/* MAPA REAL */}
             <Card>
               <CardContent className="p-0 overflow-hidden rounded-lg">
                 <iframe
-                  title="Ubicación SAPAP"
-                  src="https://maps.app.goo.gl/2QDNgYVLfqgV89E36"
+                  src="https://www.google.com/maps?q=SAPAP+Purisima+del+Rincon+Guanajuato&output=embed"
                   className="h-64 w-full border-0"
-                  allowFullScreen
                   loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
                 />
               </CardContent>
             </Card>
