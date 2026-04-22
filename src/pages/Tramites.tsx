@@ -1,15 +1,13 @@
 import Layout from "@/components/Layout";
 import Breadcrumb from "@/components/Breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "@/hooks/useScrollAnimation";
 import {
   Clock, MapPin, FileText, MessageCircle, UserCheck, PauseCircle,
-  ClipboardList, RefreshCw, CreditCard, Trash2, DollarSign, Download,
+  ClipboardList, RefreshCw, CreditCard, Trash2, DollarSign,
 } from "lucide-react";
-import DocumentIcon from "@/components/DocumentIcon";
 import { useState } from "react";
-/* ------------------------------------------------------------------ */
+
 /*  Data                                                               */
 /* ------------------------------------------------------------------ */
 
@@ -96,6 +94,9 @@ const Tramites = () => {
                 <div>
                   <h3 className="text-lg font-semibold text-foreground">{t.title}</h3>
                   <p className="mt-1 text-base text-muted-foreground">{t.description}</p>
+                  <p className="mt-2 text-sm text-accent font-medium">
+                    Haz clic para ver el documento
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -118,6 +119,9 @@ const Tramites = () => {
                 <div>
                   <h3 className="text-lg font-semibold text-foreground">{s.title}</h3>
                   <p className="mt-1 text-base text-muted-foreground">{s.description}</p>
+                  <p className="mt-2 text-sm text-accent font-medium">
+                    Haz clic para ver el documento
+                  </p>
                 </div>
               </CardContent>
             </Card>
