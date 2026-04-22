@@ -186,19 +186,6 @@ export const transparencyDocuments: Document[] = transparencyYears.flatMap((year
 //   { id: "10", title: "Inventario de Bienes Muebles e Inmuebles", category: "Padrones", type: "excel", date: "2025-12-01", size: "2.5 MB" },
 // ];
 
-/* ------------------------------------------------------------------ */
-/*  Laws                                                               */
-/* ------------------------------------------------------------------ */
-
-export const lawDocuments: Document[] = [
-  { id: "l1", title: "Ley de Ingresos", category: "Leyes", type: "pdf", date: "2024-03-15", size: "1.9 MB" },
-  { id: "l2", title: "Reglamento SAPAP", category: "Reglamentos", type: "pdf", date: "2023-06-20", size: "2.1 MB" },
-  { id: "l3", title: "Código Territorial del Estado de Guanajuato", category: "Códigos", type: "pdf", date: "2024-01-10", size: "1.5 MB" },
-  { id: "l4", title: "Ley de Aguas Nacionales", category: "Leyes", type: "pdf", date: "2023-09-01", size: "980 KB" },
-  { id: "l5", title: "Código de Ética y Conducta", category: "Códigos", type: "pdf", date: "2024-05-12", size: "1.3 MB" },
-  { id: "l6", title: "Manual de Contabilidad Gubernamental", category: "Manuales", type: "pdf", date: "2024-02-28", size: "2.8 MB" },
-];
-
 export const categories = ["Todos", "Informes Financieros", "Auditorías", "Actas", "Padrones"];
 export const lawCategories = ["Todos", "Leyes", "Reglamentos", "Códigos", "Manuales"];
 export const years = ["Todos", "2026", "2025", "2024", "2023"];
