@@ -14,18 +14,18 @@ import { useState } from "react";
 /* ------------------------------------------------------------------ */
 
 const tramites = [
-  { icon: FileText, title: "Factibilidad de servicios y contratación", description: "Dictamen técnico y conexión nueva al sistema.", pdf: "/docs/1_factibilidad.pdf" },
-  { icon: MessageCircle, title: "Quejas y aclaraciones", description: "Revisión de cobros y atención a inconformidades." },
-  { icon: UserCheck, title: "Cambio de titular", description: "Actualización de nombre del titular del servicio." },
-  { icon: PauseCircle, title: "Suspensión voluntaria de la toma", description: "Solicitud para suspender temporalmente el servicio." },
-  { icon: ClipboardList, title: "Seguimiento a trámites y ODT", description: "Consulta del estado de tus órdenes de trabajo." },
-  { icon: RefreshCw, title: "Reactivación de cuenta", description: "Proceso para reactivar un servicio suspendido." },
+  { icon: FileText, title: "Factibilidad de servicios y contratación", description: "Dictamen técnico y conexión nueva al sistema.", pdf: "./src/public/docs/1_Factibilidad.pdf" },
+  { icon: MessageCircle, title: "Quejas y aclaraciones", description: "Revisión de cobros y atención a inconformidades.", pdf: "./src/public/docs/2_Quejas.pdf" },
+  { icon: UserCheck, title: "Cambio de titular", description: "Actualización de nombre del titular del servicio.", pdf: "./src/public/docs/4_Cambio.pdf"},
+  { icon: PauseCircle, title: "Suspensión voluntaria de la toma", description: "Solicitud para suspender temporalmente el servicio.", pdf: "./src/public/docs/5_Suspension.pdf" },
+  { icon: ClipboardList, title: "Seguimiento a trámites y ODT", description: "Consulta del estado de tus órdenes de trabajo.", pdf: "./src/public/docs/7_Seguimiento.pdf" },
+  { icon: RefreshCw, title: "Reactivación de cuenta", description: "Proceso para reactivar un servicio suspendido.", pdf: "./src/public/docs/8_Reactivacion.pdf" },
 ];
 
 const servicios = [
-  { icon: CreditCard, title: "Pago de servicios", description: "Pago de recibo de agua potable y alcantarillado." },
-  { icon: Trash2, title: "Limpieza de fosa séptica / descarga sanitaria", description: "Servicio de limpieza y mantenimiento de fosas." },
-  { icon: DollarSign, title: "Costos de servicios", description: "Consulta de tarifas vigentes." },
+  { icon: CreditCard, title: "Pago de servicios", description: "Pago de recibo de agua potable y alcantarillado.", pdf: "./src/public/docs/3_Pago.pdf" },
+  { icon: Trash2, title: "Limpieza de fosa séptica / descarga sanitaria", description: "Servicio de limpieza y mantenimiento de fosas.", pdf: "./src/public/docs/9_Limpieza.pdf" },
+  { icon: DollarSign, title: "Costos de servicios", description: "Consulta de tarifas vigentes.", pdf: "./src/public/docs/6_Costos.pdf" },
 ];
 
 const costosOperativos = [
@@ -108,7 +108,9 @@ const Tramites = () => {
         <h2 className="mb-6 text-2xl font-bold text-foreground">Servicios</h2>
         <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {servicios.map((s, i) => (
-            <Card key={i} className="transition-shadow duration-300 hover:shadow-md">
+            <Card key={i} 
+            className="cursor-pointer transition-shadow duration-300 hover:shadow-md"
+            onClick={() => s.pdf && setPdfUrl(s.pdf)}>
               <CardContent className="flex items-start gap-4 p-6">
                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent/15">
                   <s.icon className="h-7 w-7 text-accent" />
