@@ -86,12 +86,15 @@ const Transparencia = () => {
       tipo,
       activeTrimester?.trimester.label,
     ],
-    queryFn: () =>
-      getArchivosPorFiltro(
-        selectedYear,
+    queryFn: async () => {
+      const res = await getArchivosPorFiltro(
+        String(selectedYear),
         tipo!,
         activeTrimester!.trimester.label
-      ),
+      );
+
+      return Array.isArray(res) ? res : res?.data ?? res?.archivos ?? [];
+    },
     enabled: !!selectedYear && !!activeTrimester && !!tipo,
     retry: 1,
     staleTime: 1000 * 60 * 5,
