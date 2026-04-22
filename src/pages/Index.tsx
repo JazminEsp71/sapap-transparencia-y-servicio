@@ -110,52 +110,53 @@ const HeroCarousel = () => {
   const slide = heroSlides[current];
 
   return (
-    <section className="relative w-full aspect-[16/9] md:aspect-[1000/293] overflow-hidden">
-      <div
-        className="absolute inset-0 transition-opacity duration-700 ease-in-out"
-        style={{
-          backgroundImage: `url(${slide.image})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: fadeIn ? 1 : 0,
-        }}
-      />
-      {/* Prev */}
-      <button
-        onClick={prev}
-        aria-label="Anterior"
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/30 text-white text-2xl backdrop-blur hover:bg-black/50 transition"
-      >
-        ‹
-      </button>
-
-      {/* Next */}
-      <button
-        onClick={next}
-        aria-label="Siguiente"
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/30 text-white text-2xl backdrop-blur hover:bg-black/50 transition"
-      >
-        ›
-      </button>
-
-      {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-3">
-        {heroSlides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i)}
-            aria-label={`Ir a imagen ${i + 1}`}
-            className={`h-3 w-3 rounded-full transition-all
-              ${i === current
-                ? "bg-white scale-110"
-                : "bg-white/50 hover:bg-white/80"
-              }`}
+    <section className="bg-muted/30 pt-4 pb-4 md:pt-6 md:pb-6">
+      <div className="mx-auto w-full max-w-[1500px] px-3 md:px-6">
+        <div className="relative w-full overflow-hidden rounded-2xl shadow-lg ring-1 ring-border/50 bg-muted">
+          <img
+            src={slide.image}
+            alt={slide.title || `Slide ${current + 1}`}
+            className="block w-full h-auto transition-opacity duration-700 ease-in-out"
+            style={{ opacity: fadeIn ? 1 : 0 }}
           />
-        ))}
+
+          {/* Prev */}
+          <button
+            onClick={prev}
+            aria-label="Anterior"
+            className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 md:h-11 md:w-11 items-center justify-center rounded-full bg-black/30 text-white text-2xl backdrop-blur hover:bg-black/50 transition"
+          >
+            ‹
+          </button>
+
+          {/* Next */}
+          <button
+            onClick={next}
+            aria-label="Siguiente"
+            className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 md:h-11 md:w-11 items-center justify-center rounded-full bg-black/30 text-white text-2xl backdrop-blur hover:bg-black/50 transition"
+          >
+            ›
+          </button>
+
+          {/* Dots */}
+          <div className="absolute bottom-3 md:bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2.5">
+            {heroSlides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                aria-label={`Ir a imagen ${i + 1}`}
+                className={`h-2.5 w-2.5 rounded-full transition-all
+                  ${i === current
+                    ? "bg-white scale-110"
+                    : "bg-white/50 hover:bg-white/80"
+                  }`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
-
 };
 
 /* ------------------------------------------------------------------ */
@@ -226,42 +227,52 @@ const Index = () => {
             Noticias y Aniversario
           </h2>
 
-          <div className="grid gap-8 lg:grid-cols-[2fr_3fr] items-stretch">
+          <div className="grid gap-8 lg:grid-cols-2 items-stretch">
 
             {/* Noticias */}
-            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md">
-              <CardContent className="p-6">
-                <div className="relative w-full overflow-hidden rounded-lg min-h-[500px]">
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full flex flex-col">
+              <CardContent className="flex flex-col gap-4 p-6 h-full">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-xl font-bold text-foreground">Noticias SAPAP</h3>
+                  <span className="inline-block rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold text-accent whitespace-nowrap">
+                    Facebook
+                  </span>
+                </div>
+                <div className="relative w-full flex-1 overflow-hidden rounded-lg min-h-[520px]">
                   <iframe
-                    src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/100063857028532&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                    width="100%"
-                    height="700"
-                    style={{ border: "none", overflow: "hidden" }}
+                    src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/100063857028532&tabs=timeline&width=500&height=720&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                    className="absolute inset-0 h-full w-full border-0"
+                    style={{ overflow: "hidden" }}
                     scrolling="no"
-                    frameBorder="0"
                     allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                     allowFullScreen
                     loading="lazy"
+                    title="Noticias Facebook SAPAP"
                   />
                 </div>
               </CardContent>
             </Card>
 
             {/* Video 30 Aniversario */}
-            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full">
-              <CardContent className="p-6">
-                <h3 className="mb-4 text-xl font-bold text-foreground">Video 30 Aniversario SAPAP</h3>
-                <div className="relative aspect-video overflow-hidden rounded-lg">
+            <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full flex flex-col">
+              <CardContent className="flex flex-col gap-4 p-6 h-full">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-xl font-bold text-foreground">Video 30 Aniversario SAPAP</h3>
+                  <span className="inline-block rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold text-accent whitespace-nowrap">
+                    Aniversario
+                  </span>
+                </div>
+                <div className="relative w-full flex-1 overflow-hidden rounded-lg min-h-[320px]">
                   <iframe
                     src="https://www.youtube.com/embed/Je9ajqlgdRI"
                     title="Video 30 Aniversario SAPAP"
                     allowFullScreen
-                    className="h-full w-full"
+                    className="absolute inset-0 h-full w-full"
                     loading="lazy"
                   />
                 </div>
-                <p className="mt-4 text-base text-muted-foreground leading-relaxed">
-                  Celebramos 30 años llevando agua potable y saneamiento a nuestra comunidad. Conoce nuestra historia y compromiso con Purísima del Rincón.
+                <p className="text-base text-muted-foreground leading-relaxed">
+                  Celebramos más de 30 años llevando agua potable y saneamiento a nuestra comunidad. Conoce nuestra historia y compromiso con Purísima del Rincón.
                 </p>
               </CardContent>
             </Card>
@@ -276,20 +287,18 @@ const Index = () => {
           <div className="grid gap-8 lg:grid-cols-2">
             {/* SAPAP App */}
             <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full">
-              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-8">
-                
-                {/* Columna 1 */}
-                <div>
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <h3 className="text-xl font-bold text-foreground md:text-2xl">
-                      SAPAP App
-                    </h3>
+              <CardContent className="flex flex-col gap-6 p-6 md:p-8 h-full">
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-xl font-bold text-foreground md:text-2xl">
+                    SAPAP App
+                  </h3>
+                  <span className="inline-block rounded-full bg-accent/15 px-4 py-1.5 text-sm font-semibold text-accent whitespace-nowrap">
+                    Aplicación Móvil
+                  </span>
+                </div>
 
-                    <span className="inline-block rounded-full bg-accent/15 px-4 py-1.5 text-sm font-semibold text-accent whitespace-nowrap">
-                      Aplicación Móvil
-                    </span>
-                  </div>
-                  <ul className="mb-6 space-y-3">
+                <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-start">
+                  <ul className="space-y-3">
                     {appBenefits.map((b, i) => (
                       <li key={i} className="flex items-center gap-3 text-foreground">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/15 flex-shrink-0">
@@ -299,69 +308,65 @@ const Index = () => {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-base text-muted-foreground leading-relaxed">
-                    Realiza tus trámites desde tu celular: paga,
-                    consulta y descarga recibos de forma rápida y segura.
-                  </p>
-                </div>
-
-                {/* Columna 2 */}
-                <div className="flex flex-col justify-between">
                   <img
                     src={cuadrolado}
-                    alt="14va Carrera SAPAP – Día Mundial del Agua"
-                    className="w-full h-48 object-cover"
+                    alt="SAPAP App"
+                    className="w-full md:w-44 h-44 object-cover rounded-lg"
                   />
-
-                  <Button
-                    asChild
-                    size="lg"
-                    className="gap-2 text-base px-6 h-auto min-h-[52px] w-fit mt-auto"
-                  >
-                    <a
-                      href="https://play.google.com/store/apps/details?id=com.sapapapp&hl=es_MX"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Download className="h-5 w-5" />
-                      Descargar App Android
-                    </a>
-                  </Button>
                 </div>
 
+                <p className="text-base text-muted-foreground leading-relaxed">
+                  Realiza tus trámites desde tu celular: paga, consulta y descarga recibos de forma rápida y segura.
+                </p>
+
+                <Button
+                  asChild
+                  size="lg"
+                  className="gap-2 text-base px-6 h-auto min-h-[52px] w-full sm:w-fit mt-auto"
+                >
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.sapapapp&hl=es_MX"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Download className="h-5 w-5" />
+                    Descargar App Android
+                  </a>
+                </Button>
               </CardContent>
             </Card>
 
             {/* Eventos Institucionales */}
             <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md h-full">
-              <div className="flex flex-col h-full">
-                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-8 h-full">
-                  <div>
-                    <div className="flex items-start justify-between gap-4 mb-3">
-                    <h3 className="mb-3 text-xl font-bold text-foreground md:text-2xl">
-                      Semáforo en rojo: cuida el agua hoy
-                    </h3>
-                    </div>
-                  </div>
-                  <img
-                    src={bannerchiquito}
-                    alt="14va Carrera SAPAP – Día Mundial del Agua"
-                    className="w-full h-48 object-cover"
-                  />
-                  <p className="mb-5 text-base text-muted-foreground leading-relaxed">
-                      Durante la temporada de calor, el consumo de agua aumenta y es vital usarla con responsabilidad. Detecta a tiempo hábitos como duchas prolongadas o fugas no atendidas y contribuye a preservar este recurso esencial.
-                    </p>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-fit gap-2 text-base min-h-[52px] mt-auto"
-                    onClick={() => setOpenCarrera(true)}
-                  >
-                    Más información
-                  </Button>
+              <CardContent className="flex flex-col gap-6 p-6 md:p-8 h-full">
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-xl font-bold text-foreground md:text-2xl">
+                    Semáforo en rojo: cuida el agua hoy
+                  </h3>
+                  <span className="inline-block rounded-full bg-destructive/15 px-4 py-1.5 text-sm font-semibold text-destructive whitespace-nowrap">
+                    Temporada de calor
+                  </span>
+                </div>
 
-                </CardContent>
-              </div>
+                <img
+                  src={semaforo}
+                  alt="Semáforo en rojo - Temporada de calor"
+                  className="w-full h-44 object-cover rounded-lg"
+                />
+
+                <p className="text-base text-muted-foreground leading-relaxed">
+                  Durante la temporada de calor, el consumo de agua aumenta y es vital usarla con responsabilidad. Detecta a tiempo hábitos como duchas prolongadas o fugas no atendidas y contribuye a preservar este recurso esencial.
+                </p>
+
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-fit gap-2 text-base min-h-[52px] mt-auto"
+                  onClick={() => setOpenCarrera(true)}
+                >
+                  Más información
+                </Button>
+              </CardContent>
             </Card>
           </div>
         </div>
