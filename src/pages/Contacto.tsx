@@ -8,9 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useContacto } from "@/hooks/useContacto";
 
 const Contacto = () => {
   const { toast } = useToast();
+  const { mutateAsync, isPending } = useContacto();
 
   const [form, setForm] = useState({
     nombre: "",
@@ -20,7 +22,7 @@ const Contacto = () => {
     mensaje: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const nombre = form.nombre.trim();
@@ -54,18 +56,35 @@ const Contacto = () => {
       return;
     }
 
-    toast({
-      title: "Mensaje enviado",
-      description: "Hemos recibido tu mensaje. Te contactaremos pronto.",
-    });
+    try {
+      await mutateAsync({
+        nombre,
+        correo,
+        celular,
+        asunto,
+        mensaje,
+      });
 
-    setForm({
-      nombre: "",
-      correo: "",
-      celular: "",
-      asunto: "",
-      mensaje: "",
-    });
+      toast({
+        title: "Mensaje enviado",
+        description: "Hemos recibido tu mensaje. Te contactaremos pronto.",
+      });
+
+      setForm({
+        nombre: "",
+        correo: "",
+        celular: "",
+        asunto: "",
+        mensaje: "",
+      });
+
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "No se pudo enviar el mensaje",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -164,8 +183,8 @@ const Contacto = () => {
                     }
                   />
                 </div>
-                <Button type="submit" className="w-full gap-2">
-                  <Send className="h-4 w-4" /> Enviar mensaje
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? "Enviando..." : "Enviar mensaje"}
                 </Button>
               </form>
             </CardContent>
