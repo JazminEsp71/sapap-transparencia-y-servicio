@@ -241,6 +241,7 @@ const Index = () => {
                 <div className="relative w-full flex-1 overflow-hidden rounded-lg min-h-[520px]">
                   <iframe
                     src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/100063857028532&tabs=timeline&width=500&height=720&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                     className="absolute inset-0 h-full w-full border-0"
                     style={{ overflow: "hidden" }}
                     scrolling="no"
@@ -266,7 +267,6 @@ const Index = () => {
                   <iframe
                     src="https://www.youtube.com/embed/Je9ajqlgdRI"
                     title="Video 30 Aniversario SAPAP"
-                    allowFullScreen
                     className="absolute inset-0 h-full w-full"
                     loading="lazy"
                   />
