@@ -37,7 +37,7 @@ const Header = () => {
                 SAPAP
               </span>
               <span className="block text-xs opacity-90 max-w-[220px]">
-                Sistema de Agua Potable y Alcantarillado
+                Sistema de Agua Potable, Alcantarillado y Saneamiento del Municipio de Purísima del Rincón
               </span>
             </div>
           </Link>
