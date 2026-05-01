@@ -8,12 +8,13 @@ import type { Trimester } from "@/data/documents";
 import { Archivo } from "@/lib/transparencia.api";
 
 interface TrimesterDocumentViewProps {
-  trimester: Trimester;
+  trimester: { label: string };
   sectionName: string;
   year: string;
-  archivos: Archivo[];
+  files: Archivo[];
   getFileUrl: (path: string) => string;
   onBack: () => void;
+  error?: string | null;
 }
 
 const parseFractionTitle = (title: string) => {
@@ -113,7 +114,7 @@ const TrimesterDocumentView = ({
   trimester,
   sectionName,
   year,
-  archivos,
+  files: archivos,
   getFileUrl,
   onBack
 }: TrimesterDocumentViewProps) => {
