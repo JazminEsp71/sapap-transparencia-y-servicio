@@ -10,25 +10,33 @@ export interface Archivo {
   trimestre: string;
 }
 
-export async function getArchivosPorFiltro(
-  anio: string,
-  tipo: string,
-  trimestre: string
-): Promise<Archivo[]> {
-  const res = await fetch(
-    `${API_URL}?anio=${anio}&tipo=${tipo}&trimestre=${trimestre}`
-  );
-
+export async function getArchivos(): Promise<Archivo[]> {
+  const res = await fetch(API_URL);
   const data = await res.json();
 
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data?.data)) return data.data;
-  if (Array.isArray(data?.archivos)) return data.archivos;
+  const transparencia = data?.data;
 
-  console.warn("Respuesta inesperada API:", data);
-  return [];
-}
+  if (!transparencia) {
+    console.warn("Respuesta inesperada API:", data);
+    return [];
+  }
 
-export function getFileUrl(path: string) {
-  return `${API_URL}/file?path=${encodeURIComponent(path)}`;
+  // 🔥 convertir estructura anidada a lista plana
+  const archivos: Archivo[] = [];
+
+  Object.entries(transparencia).forEach(([anio, trimestres]: any) => {
+    Object.entries(trimestres).forEach(([trimestre, lista]: any) => {
+      lista.forEach((file: any) => {
+        archivos.push({
+          nombre: file.nombre,
+          ruta: file.ruta,
+          año: anio,
+          trimestre,
+          tipo: "archivo"
+        });
+      });
+    });
+  });
+
+  return archivos;
 }
