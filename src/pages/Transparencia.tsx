@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Layout from "@/components/Layout";
 import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
@@ -10,11 +10,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Calendar, ChevronRight, FileText } from "lucide-react";
-import type { Trimester } from "@/data/documents";
 import TrimesterDocumentView from "@/components/TrimesterDocumentView";
 import { useTransparencia } from "@/hooks/useTransparencia";
-import { getFileUrl, getArchivosPorFiltro } from "@/lib/transparencia.api";
-import { useQuery } from "@tanstack/react-query";
 
 const sections = [
   {
@@ -38,82 +35,54 @@ const sections = [
 ];
 
 const TRIMESTRE_KEY: Record<string, string> = {
-  "Primer Trimestre": "primertrimestre",
-  "Segundo Trimestre": "segundotrimestre",
-  "Tercer Trimestre": "tercertrimestre",
-  "Cuarto Trimestre": "cuartotrimestre",
+  "Primer Trimestre": "PrimerTrimestre",
+  "Segundo Trimestre": "SegundoTrimestre",
+  "Tercer Trimestre": "TercerTrimestre",
+  "Cuarto Trimestre": "CuartoTrimestre",
+};
+
+const normalizeTrimester = (label: string) =>
+  label.replace(/\s/g, "");
+
+type TrimesterSimple = {
+  label: string;
 };
 
 const Transparencia = () => {
-  const { archivos = [], loading } = useTransparencia();
+  const { archivos = [], loading, error } = useTransparencia();
 
   const [selectedYear, setSelectedYear] = useState("");
   const [activeTrimester, setActiveTrimester] = useState<{
     section: string;
-    trimester: Trimester;
+    trimester: TrimesterSimple;
   } | null>(null);
 
   const availableYears = useMemo(() => {
-    const currentYear = new Date().getFullYear();
-
-    const apiYears = archivos
-      .map((a) => a.año || a.anio || a.year)
-      .filter(Boolean)
-      .map(Number);
-
-    const last6Years = Array.from({ length: 6 }, (_, i) => currentYear - i);
-
-    // Mezcla años del API + últimos 6 años
-    const combined = [...new Set([...apiYears, ...last6Years])];
-
-    return combined.sort((a, b) => b - a);
+    const years = archivos.map(a => a.año);
+    return [...new Set(years)].sort((a, b) => Number(b) - Number(a));
   }, [archivos]);
 
-  const tipo = activeTrimester
-    ? activeTrimester.section === "Transparencia"
-      ? "art26"
-      : "conac"
-    : null;
+  const archivosFiltrados = useMemo(() => {
+    if (!selectedYear || !activeTrimester) return [];
 
-  const {
-    data: archivosTrim = [],
-    isLoading: loadingTrim,
-    isError: isErrorTrim,
-  } = useQuery({
-    queryKey: [
-      "archivos",
-      selectedYear,
-      tipo,
-      activeTrimester?.trimester.label,
-    ],
-    queryFn: async () => {
-      const res = await getArchivosPorFiltro(
-        String(selectedYear),
-        tipo!,
-        activeTrimester!.trimester.label
+    return archivos.filter((a) => {
+      return (
+        a.año === selectedYear &&
+        a.trimestre === TRIMESTRE_KEY[activeTrimester.trimester.label]
       );
+    });
+  }, [archivos, selectedYear, activeTrimester]);
 
-      return Array.isArray(res) ? res : res?.data ?? res?.archivos ?? [];
-    },
-    enabled: !!selectedYear && !!activeTrimester && !!tipo,
-    retry: 1,
-    staleTime: 1000 * 60 * 5,
-    keepPreviousData: true,
-  });
-
-  // 📌 Selección automática de año
-  useEffect(() => {
-    if (availableYears.length && !selectedYear) {
-      setSelectedYear(availableYears[0]);
-    }
-  }, [availableYears, selectedYear]);
+  // ✅ URL archivos (ajusta IP si usas VM)
+  const getFileUrl = (path: string) => {
+    return `http://localhost:3000${path}`;
+  };
 
   return (
     <Layout>
       <div className="container py-10">
         <Breadcrumb items={[{ label: "Transparencia" }]} />
 
-        {/* Header */}
         <ScrollReveal>
           <h1 className="mb-3 text-3xl font-bold md:text-4xl">
             Información de Transparencia SAPAP
@@ -140,7 +109,7 @@ const Transparencia = () => {
                     variant={selectedYear === yr ? "default" : "outline"}
                     className="min-h-[52px] min-w-[100px] text-lg font-semibold"
                     onClick={() => {
-                      setSelectedYear(yr);
+                      setSelectedYear(String(yr));
                       setActiveTrimester(null);
                     }}
                   >
@@ -150,12 +119,12 @@ const Transparencia = () => {
           </div>
         </ScrollReveal>
 
-        {/* TRIMESTRE VIEW */}
+        {/* TRIMESTRES */}
         {activeTrimester ? (
           <ScrollReveal>
-            {isErrorTrim && (
+            {error && (
               <div className="mb-4 text-sm text-red-500">
-                No se pudieron cargar los documentos del trimestre.
+                No se pudieron cargar los documentos.
               </div>
             )}
 
@@ -163,9 +132,7 @@ const Transparencia = () => {
               trimester={activeTrimester.trimester}
               sectionName={activeTrimester.section}
               year={selectedYear}
-              archivos={archivosTrim}
-              loading={loadingTrim}
-              error={isErrorTrim}
+              files={archivosFiltrados}
               getFileUrl={getFileUrl}
               onBack={() => setActiveTrimester(null)}
             />
@@ -193,51 +160,30 @@ const Transparencia = () => {
 
                     <AccordionContent className="pb-6">
                       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        {loading
-                          ? Array.from({ length: 4 }).map((_, i) => (
-                              <div
-                                key={i}
-                                className="h-[140px] rounded-lg bg-muted animate-pulse"
-                              />
-                            ))
-                          : section.trimesters.map((tri) => {
-                              return (
-                                <button
-                                  key={tri.label}
-                                  disabled={
-                                    loadingTrim &&
-                                    activeTrimester?.trimester.label === tri.label
-                                  }
-                                  onClick={() =>
-                                    setActiveTrimester({
-                                      section: section.section,
-                                      trimester: tri,
-                                    })
-                                  }
-                                  className="group flex flex-col items-center gap-3 rounded-lg border bg-muted/30 p-6 text-center transition-all hover:bg-accent/10 hover:shadow-md"
-                                >
-                                  <FileText className="h-10 w-10 text-accent group-hover:scale-110 transition" />
+                        {section.trimesters.map((tri) => (
+                          <button
+                            key={tri.label}
+                            onClick={() =>
+                              setActiveTrimester({
+                                section: section.section,
+                                trimester: tri,
+                              })
+                            }
+                            className="group flex flex-col items-center gap-3 rounded-lg border bg-muted/30 p-6 text-center transition-all hover:bg-accent/10 hover:shadow-md"
+                          >
+                            <FileText className="h-10 w-10 text-accent group-hover:scale-110 transition" />
 
-                                  <span className="text-lg font-semibold">
-                                    {tri.label}
-                                  </span>
+                            <span className="text-lg font-semibold">
+                              {tri.label}
+                            </span>
 
-                                  <span className="text-sm text-muted-foreground flex items-center gap-2">
-                                    {loadingTrim &&
-                                    activeTrimester?.trimester.label === tri.label ? (
-                                      <>
-                                        <span className="h-4 w-4 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></span>
-                                        Cargando...
-                                      </>
-                                    ) : (
-                                      "Ver documentos"
-                                    )}
-                                  </span>
+                            <span className="text-sm text-muted-foreground">
+                              Ver documentos
+                            </span>
 
-                                  <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition" />
-                                </button>
-                              );
-                            })}
+                            <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition" />
+                          </button>
+                        ))}
                       </div>
                     </AccordionContent>
                   </AccordionItem>
