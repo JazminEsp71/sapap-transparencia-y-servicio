@@ -1,18 +1,14 @@
-import { getArchivosPorFiltro } from "@/lib/transparencia.api";
 import { useQuery } from "@tanstack/react-query";
+import { getArchivos } from "@/lib/transparencia.api";
 
-export function useTransparencia(anio?: string, tipo?: string, trimestre?: string) {
+export function useTransparencia() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["transparencia", anio, tipo, trimestre],
-    queryFn: () => getArchivosPorFiltro(anio!, tipo!, trimestre!),
-    enabled: !!anio && !!tipo && !!trimestre,
-    staleTime: 1000 * 60 * 10,
+    queryKey: ["transparencia"],
+    queryFn: getArchivos,
   });
 
-  //url desplega despues de consulta es año tipo y trimestre
-
   return {
-    archivos: Array.isArray(data) ? data : [],
+    archivos: data ?? [],
     loading: isLoading,
     error: error ? "Error al cargar archivos" : null,
   };
